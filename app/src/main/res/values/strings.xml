@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">DiDi</string>
+    
+    <string name="SNMn">ФИО</string>
+    <string name="phone">Телефон</string>
+    <string name="city">Город</string>
+    <string name="next">Продолжить</string>
+    <string name="didi_txi_ru">DiDi такси в России</string>
+    <string name="didi_text">Подключаем водителей, помогаем зарабатывать больше, и получать деньги вовремя с комиссией всего 9,5%</string>
+
+    <string name="registration_text">Регистрация в агрегаторе такси Didi</string>
+    <string name="load_sts">Загрузка СТС</string>
+    <string name="facial_sts">Лицевая сторона СТС</string>
+    <string name="facial_sts_successful">Лицевая сторона СТС загружена</string>
+    <string name="facial_sts_fail">Ошибка загрузки лицевой стороны СТС</string>
+    <string name="working_sts">Оборотная сторона СТС</string>
+    <string name="working_sts_successful">Оборотная сторона СТС загружена</string>
+    <string name="working_sts_fail">Ошибка загрузки оборотной стороны СТС</string>
+    <string name="load_vy">Загрузка водительского удостоверения</string>
+    <string name="facial_vy">Водительское удостоверение лицевая сторона</string>
+    <string name="facial_vy_successful">Лицевая сторона ВУ загружена</string>
+    <string name="facial_vy_fail">Ошибка загрузки лицевой стороны ВУ</string>
+    <string name="working_vy">Водительское удостоверение оборотная сторона</string>
+    <string name="working_vy_successful">Обратная сторона ВУ загружена</string>
+    <string name="working_vy_fail">Ошибка загрузки обратной стороны ВУ</string>
+    <string name="load_passport">Загрузка паспорта</string>
+    <string name="passport_photo">Первый разворот паспорта</string>
+    <string name="passport_photo_successful">Первый разворот паспорта загружена</string>
+    <string name="passport_photo_fail">Ошибка загрузки первого разворота паспорта</string>
+    <string name="you_photo_vy">Селфи с водительским удостоверением</string>
+    <string name="you_photo_vy_successful">Селфи с ВУ загружена</string>
+    <string name="you_photo_vy_fail">Ошибка загрузки селфи с ВУ</string>
+    <string name="tap_load_photo">Нажмите для загрузки фото</string>
+    <string name="photo_loaded">Фотография загружена</string>
+
+    <string name="thanks">Спасибо\nВаши документы приняты.</string>
+    <string name="how_much_earn">СКОЛЬКО ВЫ СМОЖЕТЕ ЗАРАБОТАТЬ С DIDI?</string>
+    <string name="support">ТЕХПОДДЕРЖКА 24/7</string>
+    <string name="support_text">служба поддержки ответит на любые ваши вопросы 24 часа в сутки</string>
+    <string name="attractive_shifts">ПРИВЛЕКАТЕЛЬНЫЕ СМЕНЫ</string>
+    <string name="attractive_shifts_text">наиболее привлекательные смены - 600 ₽ за 48ч</string>
+    <string name="guarantees_hour">ГАРАНТИИ В ЧАС ПИК</string>
+    <string name="guarantees_hour_text">высокие гарантии в пиковые часы - до 420 ₽ за каждую поездку</string>
+    <string name="payouts">МГНОВЕННЫЕ ВЫПЛАТЫ</string>
+    <string name="payouts_text">возможность моментальных выплат DiDi</string>
+    <string name="commissions">Комиссии</string>
+    <string name="guarantees">Гарантии</string>
+    <string name="earnings">Ваш\nзаработок</string>
+    <string name="percent_didi">9,5%</string>
+    <string name="pay_didi">До 9 000 ₽*</string>
+    <string name="get_money_didi">8 145 ₽</string>
+    <string name="other_aggregator">Другой\nтакси\nагрегатор</string>
+    <string name="percent">20%</string>
+    <string name="pay">До 6 500 ₽*</string>
+    <string name="get_money">5 200 ₽</string>
+</resources>

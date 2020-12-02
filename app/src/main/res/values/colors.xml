@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#fc9153</color>
+    <color name="colorPrimaryDark">#fc9153</color>
+    <color name="colorAccent">#fc9153</color>
+    <color name="colorGray">#A3A9B8</color>
+    <color name="separator">#EBEEF5</color>
+    <color name="background_night">#151515</color>
+    <color name="pop_up_night">#4D272727</color>
+    <color name="pop_up">#4D474747</color>
+    <color name="background">#eaecf0</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="match_parent" format="integer">-1</dimen>
+    <dimen name="wrap_content">-2dp</dimen>
+
+    <dimen name="text_header_36">36sp</dimen>
+    <dimen name="text_header_30">30sp</dimen>
+    <dimen name="text_header_24">24sp</dimen>
+    <dimen name="text_header_21">21sp</dimen>
+    <dimen name="text_header_18">18sp</dimen>
+    <dimen name="text_header_16">16sp</dimen>
+    <dimen name="text_header_14">14sp</dimen>
+    <dimen name="text_header_12">12sp</dimen>
+    <dimen name="text_header_10">10sp</dimen>
+    <dimen name="text_header_9">9sp</dimen>
+
+    <dimen name="border_width">6dp</dimen>
+    <dimen name="border_radius">5dp</dimen>
+    <dimen name="width_separator">1dp</dimen>
+    <dimen name="width_stroke">2dp</dimen>
+
+    <dimen name="margin_0">0dp</dimen>
+    <dimen name="margin_2">2dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
+    <dimen name="margin_6">6dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_24">24dp</dimen>
+    <dimen name="margin_32">32dp</dimen>
+    <dimen name="margin_40">40dp</dimen>
+    <dimen name="margin_60">60dp</dimen>
+    <dimen name="margin_80">80dp</dimen>
+    <dimen name="margin_100">100dp</dimen>
+    <!-- region button set!-->
+    <dimen name="button_radius">40dp</dimen>
+    <dimen name="button_radius_4">4dp</dimen>
+    <dimen name="button_radius_110">110dp</dimen>
+    <dimen name="button_radius_20">20dp</dimen>
+    <dimen name="button_padding">12dp</dimen>
+    <dimen name="button_height">48dp</dimen>
+    <!-- endregion -->
+
+    <dimen name="size_8">8dp</dimen>
+    <dimen name="size_10">10dp</dimen>
+    <dimen name="size_14">14dp</dimen>
+    <dimen name="size_20">20dp</dimen>
+    <dimen name="size_24">24dp</dimen>
+    <dimen name="size_32">32dp</dimen>
+    <dimen name="size_36">36dp</dimen>
+    <dimen name="size_44">44dp</dimen>
+    <dimen name="size_48">48dp</dimen>
+    <dimen name="size_52">52dp</dimen>
+    <dimen name="size_72">72dp</dimen>
+    <dimen name="size_86">86dp</dimen>
+    <dimen name="size_124">124dp</dimen>
+
+    <dimen name="task_status_width">1dp</dimen>
+    <dimen name="cursor_width">2dp</dimen>
+</resources>

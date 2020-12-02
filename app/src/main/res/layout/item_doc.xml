@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="item"
+            type="com.aks.didi.ui.doc.DocItem" />
+        <variable
+            name="viewModel"
+            type="com.aks.didi.ui.doc.TakeDocViewModel" />
+    </data>
+
+    <RelativeLayout
+        style="@style/LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/margin_10"
+        android:paddingBottom="@dimen/margin_10"
+        android:paddingStart="@dimen/margin_16"
+        android:paddingEnd="@dimen/margin_16"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{()->viewModel.onTakePhoto()}">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_10"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/iv">
+
+            <TextView
+                style="@style/TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_header_16"
+                android:fontFamily="@font/open_sans_400"
+                bind:textBin="@{item.title}"
+                tools:text="@string/facial_sts"/>
+
+            <TextView
+                style="@style/TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_header_16"
+                android:fontFamily="@font/open_sans_600"
+                android:text="@string/tap_load_photo"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+</layout>

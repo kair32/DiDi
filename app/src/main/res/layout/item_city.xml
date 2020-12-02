@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.aks.didi.ui.photo.TakePhotoViewModel" />
+        <variable
+            name="item"
+            type="com.aks.didi.ui.photo.CityItem" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/margin_20"
+        android:paddingEnd="@dimen/margin_20"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{()->viewModel.onCity(item.city)}">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/margin_6"
+            android:paddingBottom="@dimen/margin_6"
+            android:gravity="center_vertical|start"
+            android:fontFamily="@font/open_sans_600"
+            android:textSize="@dimen/text_header_16"
+            android:textColor="@color/black"
+            android:text="@{item.city}"
+            tools:text="Москва"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/width_separator"
+            android:background="@color/separator"
+            android:layout_gravity="bottom"/>
+
+    </FrameLayout>
+
+</layout>
