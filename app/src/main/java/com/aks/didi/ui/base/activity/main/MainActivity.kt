@@ -32,6 +32,10 @@ class MainActivity: AppCompatActivity() {
         binding.viewModel = viewModel
 
         sharedViewModel.popUpLiveData.observe(this){ if (it.isNotBlank()) viewModel.showPopUp(it) }
+        sharedViewModel.popUpLiveDataInt.observe(this){
+            if (it!=null)
+                viewModel.showPopUp(this.resources.getString(it))
+        }
         binding.lifecycleOwner = this
     }
 

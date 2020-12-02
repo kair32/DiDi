@@ -8,13 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.BindingAdapter
+import coil.load
+import coil.size.Scale
 import com.aks.didi.R
 import com.aks.didi.ui.photo.TakePhotoViewModel
 import com.redmadrobot.inputmask.MaskedTextChangedListener
+import java.io.File
 
 @BindingAdapter("isVisible")
 fun setVisibility(view: View, isVisible: Boolean) {
@@ -83,5 +87,12 @@ fun setTopTopParentConstraint(view: View, id: Int) {
             if (id != 0) ConstraintSet.BOTTOM else ConstraintSet.TOP,
             view.resources.getDimensionPixelOffset(R.dimen.margin_20))
         applyTo(layout)
+    }
+}
+
+@BindingAdapter("loadImage")
+fun setLoadImage(iv: ImageView, path: File?){
+    iv.load(path){
+        scale(Scale.FILL)
     }
 }
