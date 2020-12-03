@@ -32,7 +32,7 @@
 
         <TextView
             style="@style/TextView"
-            android:id="@+id/tv_text"
+            android:id="@+id/tv_text_enter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_10"
@@ -40,7 +40,7 @@
             android:layout_marginEnd="@dimen/margin_16"
             android:fontFamily="@font/open_sans_600"
             android:textSize="@dimen/text_header_18"
-            android:text="@string/didi_text"
+            android:text="@string/enter_you_data"
             bind:layout_constraintTop_toBottomOf="@+id/tv_title"/>
 
         <EditText
@@ -57,7 +57,7 @@
             android:onTextChanged="@{(text, _1, _2, _3) -> viewModel.onFioEntry(text.length)}"
             android:text="@={viewModel.fio}"
             android:hint="@string/SNMn"
-            bind:layout_constraintTop_toBottomOf="@+id/tv_text"/>
+            bind:layout_constraintTop_toBottomOf="@+id/tv_text_enter"/>
 
         <EditText
             android:id="@+id/et_phone"
@@ -92,6 +92,19 @@
             bind:topTopParentConstraint="@{viewModel.isFocusCity? 0: R.id.et_phone}"
             tools:layout_constraintTop_toBottomOf="@+id/et_phone"/>
 
+        <TextView
+            style="@style/TextView"
+            android:id="@+id/tv_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:fontFamily="@font/open_sans_600"
+            android:textSize="@dimen/text_header_18"
+            android:text="@string/didi_text"
+            bind:layout_constraintTop_toBottomOf="@+id/et_city"/>
+
         <Button
             android:id="@+id/bt"
             android:layout_width="match_parent"
@@ -107,7 +120,7 @@
             android:layout_marginEnd="@dimen/margin_16"
             android:text="@string/next"
             android:textColor="@color/white"
-            bind:layout_constraintTop_toBottomOf="@+id/et_city"/>
+            bind:layout_constraintTop_toBottomOf="@+id/tv_text"/>
 
         <androidx.recyclerview.widget.RecyclerView
             style="@style/RecyclerView"

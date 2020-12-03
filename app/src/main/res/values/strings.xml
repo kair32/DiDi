@@ -5,6 +5,7 @@
     <string name="phone">Телефон</string>
     <string name="city">Город</string>
     <string name="next">Продолжить</string>
+    <string name="enter_you_data">Введите ваши данные для регистрации</string>
     <string name="send_request">Отправить заявку</string>
     <string name="didi_txi_ru">DiDi такси в России</string>
     <string name="didi_text">Подключаем водителей, помогаем зарабатывать больше, и получать деньги вовремя с комиссией всего 9,5%</string>
