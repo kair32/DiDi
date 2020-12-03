@@ -7,12 +7,20 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_gravity="center"/>
 
             <TextView
                 style="@style/TextView"
@@ -29,12 +37,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="@dimen/margin_10">
+                android:layout_marginTop="@dimen/margin_20"
+                android:paddingStart="@dimen/margin_20"
+                android:paddingEnd="@dimen/margin_20">
+
+                <ImageView
+                    android:layout_width="@dimen/size_52"
+                    android:layout_height="@dimen/size_52"
+                    android:src="@drawable/ic_support"
+                    android:layout_gravity="center"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/margin_10">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -60,11 +77,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="@dimen/margin_10">
+                android:layout_marginTop="@dimen/margin_10"
+                android:paddingStart="@dimen/margin_20"
+                android:paddingEnd="@dimen/margin_20">
+
+                <ImageView
+                    android:layout_width="@dimen/size_52"
+                    android:layout_height="@dimen/size_52"
+                    android:src="@drawable/ic_ruble"
+                    android:layout_gravity="center"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_10"
                     android:orientation="vertical">
 
                     <TextView
@@ -91,12 +117,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="@dimen/margin_10">
+                android:layout_marginTop="@dimen/margin_10"
+                android:paddingStart="@dimen/margin_20"
+                android:paddingEnd="@dimen/margin_20">
+
+                <ImageView
+                    android:layout_width="@dimen/size_52"
+                    android:layout_height="@dimen/size_52"
+                    android:src="@drawable/ic_apply"
+                    android:layout_gravity="center"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/margin_10">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -122,11 +157,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="@dimen/margin_10">
+                android:layout_marginTop="@dimen/margin_10"
+                android:paddingStart="@dimen/margin_20"
+                android:paddingEnd="@dimen/margin_20">
+
+                <ImageView
+                    android:layout_width="@dimen/size_52"
+                    android:layout_height="@dimen/size_52"
+                    android:src="@drawable/ic_rocket"
+                    android:layout_gravity="center"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_10"
                     android:orientation="vertical">
 
                     <TextView
@@ -155,7 +199,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_20"
                 android:layout_marginEnd="@dimen/margin_20"
-                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_20"
                 android:textSize="@dimen/text_header_18"
                 android:fontFamily="@font/open_sans_700"
                 android:layout_gravity="center"
