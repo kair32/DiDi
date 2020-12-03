@@ -23,6 +23,7 @@
         android:onClick="@{()->viewModel.onCity(item.city)}">
 
         <TextView
+            style="@style/TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/margin_6"
