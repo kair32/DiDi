@@ -3,6 +3,8 @@ package com.aks.didi.ui.base.activity.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.aks.didi.model.CacheData
+import com.aks.didi.network.Status
 import com.aks.didi.ui.base.viewmodel.ViewModelBase
 import com.aks.didi.utils.FragmentViewModel
 import com.aks.didi.utils.fragment.FragmentEvent
@@ -18,6 +20,7 @@ interface PopUpViewModel {
 }
 
 interface MainViewModel: FragmentViewModel, PopUpViewModel{
+    val isLoading: MutableLiveData<Status>
 }
 
 class MainViewModelImpl: ViewModelBase(), MainViewModel{
@@ -28,13 +31,19 @@ class MainViewModelImpl: ViewModelBase(), MainViewModel{
         popUpText.postValue(text)
         isPopUpVisible.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
-            delay(3000)
+            delay(4000)
             isPopUpVisible.postValue(false)
             popUpText.postValue("")
         }
     }
 
     init {
-        replaceFragment(FragmentEvent(FragmentType.TAKE_PHONE))
+        requestWithCallback({api.auth()},
+                { auth->
+                    auth.accessToken?.let { CacheData.sid = it}
+                    replaceFragment(FragmentEvent(FragmentType.TAKE_PHONE))
+                },
+                { if (!it.isNullOrBlank()) showPopUp(it)}
+        )
     }
 }

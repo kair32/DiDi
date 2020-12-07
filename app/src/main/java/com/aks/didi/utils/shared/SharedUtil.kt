@@ -15,5 +15,6 @@ object SharedUtil {
         val sharedModel = ViewModelProvider(activity).get(SharedViewModelImpl::class.java)
         viewModel.popUpLiveData.observe(owner,  Observer { sharedModel.popUpLiveData.value = it })
         viewModel.popUpLiveDataInt.observe(owner,  Observer { sharedModel.popUpLiveDataInt.value = it })
+        viewModel.isLoading.observe(owner,  Observer { sharedModel.isLoading.value = it })
     }
 }

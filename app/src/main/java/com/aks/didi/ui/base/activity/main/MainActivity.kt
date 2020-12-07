@@ -36,6 +36,7 @@ class MainActivity: AppCompatActivity() {
             if (it!=null)
                 viewModel.showPopUp(this.resources.getString(it))
         }
+        sharedViewModel.isLoading.observe(this){ viewModel.isLoading.postValue(it)}
         binding.lifecycleOwner = this
     }
 
