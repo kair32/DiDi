@@ -1,6 +1,5 @@
 package com.aks.didi.ui.doc
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.aks.didi.R
@@ -18,12 +17,12 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
-import okhttp3.Headers
+import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+
 
 interface TakeDocViewModel: FragmentViewModel, SharedViewModel, PermissionViewModel {
     var imagePath: String
@@ -44,17 +43,17 @@ class TakeDocViewModelImpl: ViewModelBase(), TakeDocViewModel, PermissionListene
     override val isNextEnabled = MutableLiveData(true)
     override val takePhoto = MutableLiveData<DocItem>()
     override val listAdapter = listOf(
-            DocTitle(),
-            DocText(R.string.load_sts),
-            DocItem(R.string.facial_sts, FormField.STS_FRONT),
-            DocItem(R.string.working_sts, FormField.STS_BACK),
-            DocText(R.string.load_vy),
-            DocItem(R.string.facial_vy, FormField.VU_FRONT),
-            DocItem(R.string.working_vy, FormField.VU_BACK),
-            DocItem(R.string.you_photo_vy, FormField.VU_SELF),
-            DocText(R.string.load_passport),
-            DocItem(R.string.passport_photo, FormField.PASPORT),
-            DocButton(),
+        DocTitle(),
+        DocText(R.string.load_sts),
+        DocItem(R.string.facial_sts, FormField.STS_FRONT),
+        DocItem(R.string.working_sts, FormField.STS_BACK),
+        DocText(R.string.load_vy),
+        DocItem(R.string.facial_vy, FormField.VU_FRONT),
+        DocItem(R.string.working_vy, FormField.VU_BACK),
+        DocItem(R.string.you_photo_vy, FormField.VU_SELF),
+        DocText(R.string.load_passport),
+        DocItem(R.string.passport_photo, FormField.PASPORT),
+        DocButton(),
     )
 
     init {
@@ -77,13 +76,15 @@ class TakeDocViewModelImpl: ViewModelBase(), TakeDocViewModel, PermissionListene
                 .map    { it.formfield }
                 .apply {
                     requestWithCallback({
-                        api.sendSecond(CacheData.sid.value!!, "", "", "",
-                                getFileId(FormField.STS_FRONT),
-                                getFileId(FormField.STS_BACK),
-                                getFileId(FormField.VU_FRONT),
-                                getFileId(FormField.VU_BACK),
-                                getFileId(FormField.PASPORT),
-                                getFileId(FormField.VU_SELF))
+                        api.sendSecond(
+                            CacheData.sid.value!!, "", "", "",
+                            getFileId(FormField.STS_FRONT),
+                            getFileId(FormField.STS_BACK),
+                            getFileId(FormField.VU_FRONT),
+                            getFileId(FormField.VU_BACK),
+                            getFileId(FormField.PASPORT),
+                            getFileId(FormField.VU_SELF)
+                        )
                     }, {
                         replaceFragment(FragmentEvent(FragmentType.INFORMATION))
                     }, { showPopUp(it) })
@@ -94,29 +95,40 @@ class TakeDocViewModelImpl: ViewModelBase(), TakeDocViewModel, PermissionListene
 
     private fun checkNext() =
         isNextEnabled.postValue(listAdapter
-                .filter { it.type == DocType.ITEM }
-                .map    { it as DocItem }
-                .any    { it.formfield.fileId != null }
+            .filter { it.type == DocType.ITEM }
+            .map { it as DocItem }
+            .any { it.formfield.fileId != null }
         )
 
     override fun onTakePhotoSuccess(file: File, item: DocItem) {
-        /*item.filePath.value = file
-        checkNext()*/
-        val part = MultipartBody.Part.createFormData("files", null, file.asRequestBody("image/".toMediaTypeOrNull()))
-        requestWithCallback({api.loadImage(CacheData.sid.value!!,part, item.formfield.filed)},{
-            item.formfield.fileId = ""
-            item.filePath.postValue(file)
-            checkNext()
-        },{ showPopUp(it)})
+        val requestFile = file.asRequestBody("image/".toMediaTypeOrNull())
+        val part = MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart(
+            "files", file.name, requestFile
+        ).build()
+        requestWithCallback({ api.loadImage(CacheData.sid.value!!, part, item.formfield.filed) }, { loadImage ->
+            if (!loadImage.result.uploaded.isNullOrEmpty()) {
+                item.formfield.fileId = ""
+                item.filePath.postValue(file)
+                checkNext()
+            }
+        }, { showPopUp(it) })
     }
 
-    override fun onPermissionGranted(response: PermissionGrantedResponse?) { if (response?.permissionName == PermissionType.CAMERA.permission) isPermissionCameraGranted.postValue(true) }
+    override fun onPermissionGranted(response: PermissionGrantedResponse?) { if (response?.permissionName == PermissionType.CAMERA.permission) isPermissionCameraGranted.postValue(
+        true
+    ) }
     override fun onPermissionDenied(response: PermissionDeniedResponse?) = showPopUp(R.string.access_to_camera)
-    override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest?, token: PermissionToken?) = token?.continuePermissionRequest() ?: Unit
+    override fun onPermissionRationaleShouldBeShown(
+        permission: PermissionRequest?,
+        token: PermissionToken?
+    ) = token?.continuePermissionRequest() ?: Unit
 
     //region maybe
     private fun createPart(key: String, value: String)
-            = MultipartBody.Builder().addPart(createHeaders(disposition(key)), value.toRequestBody())
+            = MultipartBody.Builder().addPart(
+        createHeaders(disposition(key)),
+        value.toRequestBody()
+    )
 
     private fun disposition(key: String) = buildString {
         append("form-data; name=")
@@ -125,7 +137,10 @@ class TakeDocViewModelImpl: ViewModelBase(), TakeDocViewModel, PermissionListene
 
     private fun createHeaders(disposition: String) = Headers.Builder()
             .addUnsafeNonAscii("Content-Disposition", disposition)
-            .addUnsafeNonAscii("content-type","multipart/form-data;boundary=-------------573cf973d5228")
+            .addUnsafeNonAscii(
+                "content-type",
+                "multipart/form-data;boundary=-------------573cf973d5228"
+            )
             .build()
 
     private fun StringBuilder.appendQuotedString(key: String) {

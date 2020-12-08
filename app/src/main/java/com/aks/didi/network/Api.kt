@@ -1,9 +1,6 @@
 package com.aks.didi.network
 
-import com.aks.didi.model.Auth
-import com.aks.didi.model.CityGetList
-import com.aks.didi.model.FromSend
-import com.aks.didi.model.ResponseWrapper
+import com.aks.didi.model.*
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -55,14 +52,13 @@ interface Api {
             @Query("uid") uid: UUID = UUID.randomUUID()
     ): Response<ResponseWrapper>
 
-    @Multipart
     @POST("form/file/upload")
-    @Headers("Accept: application/json","Content-Type: multipart/form-data;boundary=-------------573cf973d5228")
+    @Headers("Accept: application/json")
     suspend fun loadImage(
             @Header("Authorization") sid: String,
-            @Part image: MultipartBody.Part,
+            @Body body: MultipartBody,
             @Query("formfield") formfield: String,
             @Query("form") from: String = "bid.main.didi",
             @Query("uid") uid: UUID = UUID.randomUUID()
-    ): Response<ResponseWrapper>
+    ): Response<LoadImage>
 }

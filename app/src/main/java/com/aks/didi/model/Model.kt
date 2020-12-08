@@ -7,6 +7,17 @@ interface RequestWrapper{
         val success: Boolean
         val errors: Any?
 }
+
+data class LoadImage(
+        override val success: Boolean,
+        override val errors: Any,
+        val result: Result
+):RequestWrapper
+
+data class Result(
+        val uploaded: List<String>
+)
+
 data class ResponseWrapper(
         override val success: Boolean,
         override val errors: Any,
