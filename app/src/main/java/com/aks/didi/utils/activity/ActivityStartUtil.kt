@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.aks.didi.REQUEST_CALL
+import com.aks.didi.REQUEST_PICK_PHOTO
 import com.aks.didi.REQUEST_TAKE_PHOTO
 import com.aks.didi.utils.ActivityStartViewModel
 import com.aks.didi.utils.EventBase
@@ -40,7 +41,7 @@ open class ActivityStartEvent(
 ) : EventBase() {}
 
 enum class ActivityType(val code: Int) {
-    DEFAULT(0), CALL(REQUEST_CALL), TAKE_PHOTO(REQUEST_TAKE_PHOTO);
+    DEFAULT(0), CALL(REQUEST_CALL), TAKE_PHOTO(REQUEST_TAKE_PHOTO), PICK_PHOTO(REQUEST_PICK_PHOTO);
     companion object {
         fun getActivity(code: Int): ActivityType = values().find { it.code == code } ?: DEFAULT
     }

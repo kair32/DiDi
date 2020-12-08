@@ -1,13 +1,21 @@
 package com.aks.didi.ui.photo
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.aks.didi.model.CacheData
+import com.aks.didi.model.FromSend
 import com.aks.didi.ui.base.viewmodel.ViewModelBase
 import com.aks.didi.utils.FragmentViewModel
 import com.aks.didi.utils.SharedViewModel
 import com.aks.didi.utils.fragment.FragmentEvent
 import com.aks.didi.utils.fragment.FragmentType
+import okhttp3.*
+import okhttp3.RequestBody.Companion.toRequestBody
+import okio.Buffer
+import okio.IOException
+import java.util.*
+
 
 interface TakePhotoViewModel: FragmentViewModel, SharedViewModel {
     val fio: MutableLiveData<String>
@@ -38,10 +46,12 @@ class TakePhotoViewModelImpl: ViewModelBase(), TakePhotoViewModel{
     private var isFio: Boolean = false
 
     init {
-        requestWithCallback({api.getCityList(CacheData.sid)},
-                {   cities.postValue(it.result?: listOf())
-                    defaultCities.addAll(it.result?: listOf())},
-                {   if (!it.isNullOrBlank()) showPopUp(it)}
+        requestWithCallback({ api.getCityList(CacheData.sid) },
+                {
+                    cities.postValue(it.result ?: listOf())
+                    defaultCities.addAll(it.result ?: listOf())
+                },
+                { if (!it.isNullOrBlank()) showPopUp(it) }
         )
     }
 

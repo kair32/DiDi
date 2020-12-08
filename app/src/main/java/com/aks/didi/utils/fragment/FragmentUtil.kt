@@ -1,10 +1,15 @@
 package com.aks.didi.utils.fragment
 
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.aks.didi.R
+import com.aks.didi.ui.base.viewmodel.ViewModelBase
+import com.aks.didi.ui.doc.ChoosePhoto
 import com.aks.didi.ui.doc.TakeDocFragment
 import com.aks.didi.ui.information.InformationFragment
 import com.aks.didi.ui.photo.TakePhotoFragment
@@ -26,6 +31,7 @@ object FragmentUtil {
     private fun replaceFragment(manager: FragmentManager, event: FragmentEvent) {
         val transaction = manager.beginTransaction()
         val fragment = createFragment(event)
+        if (fragment is DialogFragment) return fragment.show(manager, event.type.name)
         when(event.type.animation){
             AnimationType.RIGHT_TO_LEFT-> {
                 if (event.isBack) transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
@@ -41,15 +47,34 @@ object FragmentUtil {
     }
 
     private fun createFragment(event: FragmentEvent) = when (event.type) {
-        TAKE_PHONE -> TakePhotoFragment.newInstance()
-        TAKE_DOC -> TakeDocFragment.newInstance()
-        INFORMATION -> InformationFragment.newInstance()
+        TAKE_PHONE      -> TakePhotoFragment.newInstance()
+        TAKE_DOC        -> TakeDocFragment.newInstance()
+        CHOOSE_PHOTO    -> ChoosePhoto.newInstance()
+        INFORMATION     -> InformationFragment.newInstance()
     }
 
     private fun removeFragment(manager: FragmentManager, event: FragmentEvent) {
         val fragment = manager.findFragmentByTag(event.type.name) ?: return
         manager.beginTransaction().remove(fragment).commit()
     }
+}
+
+inline fun <reified T: ViewModelBase> getViewModelFragment(activity: FragmentActivity?, vararg tags :String?): T?{
+    tags.map { tag ->
+        activity?.supportFragmentManager?.findFragmentByTag(tag)?.let {
+            return ViewModelProvider(it).get(T::class.java)
+        }
+    }
+    return null
+}
+
+fun getFragment(activity: FragmentActivity?, vararg tags :String?): Fragment?{
+    tags.map { tag ->
+        activity?.supportFragmentManager?.findFragmentByTag(tag)?.let {
+            return it
+        }
+    }
+    return null
 }
 
 open class FragmentEvent(
@@ -64,6 +89,7 @@ enum class FragmentType(
 
     TAKE_PHONE,
     TAKE_DOC,
+    CHOOSE_PHOTO,
     INFORMATION
 }
 enum class AnimationType{

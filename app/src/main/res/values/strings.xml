@@ -34,6 +34,8 @@
     <string name="you_photo_vy_fail">Ошибка загрузки селфи с ВУ</string>
     <string name="tap_load_photo">Нажмите для загрузки фото</string>
     <string name="photo_loaded">Фотография загружена</string>
+    <string name="take_photo">Сделать фотографию</string>
+    <string name="pick_photo">Выберать фотографию</string>
 
 
     <string name="access_to_camera">Разрешите доступ приложения к камере</string>
