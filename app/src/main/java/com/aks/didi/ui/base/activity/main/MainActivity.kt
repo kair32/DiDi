@@ -40,6 +40,8 @@ class MainActivity: AppCompatActivity() {
         binding.lifecycleOwner = this
     }
 
+    override fun onBackPressed() = viewModel.onBackPressed()
+
     companion object {
         fun newIntent(context: Context) = Intent(context, MainActivity::class.java)
     }

@@ -13,6 +13,7 @@ import com.aks.didi.utils.PermissionViewModel
 import com.aks.didi.utils.SharedViewModel
 import com.aks.didi.utils.activity.ActivityStartEvent
 import com.aks.didi.utils.fragment.FragmentEvent
+import com.aks.didi.utils.fragment.FragmentType
 import com.aks.didi.utils.permissions.PermissionEvent
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -43,32 +44,9 @@ abstract class ViewModelBase: ViewModel(), FragmentViewModel, ActivityStartViewM
     protected open fun showPopUp(text: String?) { if (!text.isNullOrBlank()) popUpLiveData.postValue(text)}
     protected open fun showPopUp(res: Int) = popUpLiveDataInt.postValue(res)
 
+
+    override fun onBackPressed() = fragmentLiveData.postValue(FragmentEvent(FragmentType.BACK, isBack = true))
     //region запросы
-
-    fun <T> requestWithLiveData(
-            liveData: MutableLiveData<T>,
-            request: suspend () -> Response<T>,
-            errorCallback: ((String?) -> Unit)? ) {
-
-        isLoading.postValue(Status.LOADING)
-
-        this.viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = request.invoke()
-                if (response.body() != null) {
-                    liveData.postValue(response.body())
-                    isLoading.postValue(Status.SUCCESS)
-                } else if (response.errorBody() != null) {
-                    errorCallback?.invoke(getError(response.errorBody()))
-                    isLoading.postValue(Status.ERROR)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                isLoading.postValue(Status.ERROR)
-                errorCallback?.invoke(null)
-            }
-        }
-    }
 
     fun <T> requestWithCallback(
             request: suspend () -> Response<T>,

@@ -18,6 +18,7 @@ interface SharedViewModel {
 
 interface FragmentViewModel {
     val fragmentLiveData: LiveData<FragmentEvent>
+    fun onBackPressed()
 }
 
 interface ActivityStartViewModel {

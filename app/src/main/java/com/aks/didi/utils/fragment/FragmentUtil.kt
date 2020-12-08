@@ -13,6 +13,7 @@ import com.aks.didi.ui.doc.ChoosePhoto
 import com.aks.didi.ui.doc.TakeDocFragment
 import com.aks.didi.ui.information.InformationFragment
 import com.aks.didi.ui.photo.TakePhotoFragment
+import com.aks.didi.ui.photo.TakePhotoViewModelImpl
 import com.aks.didi.utils.EventBase
 import com.aks.didi.utils.FragmentViewModel
 import com.aks.didi.utils.fragment.FragmentType.*
@@ -24,13 +25,20 @@ object FragmentUtil {
         viewModel.fragmentLiveData.observe(owner, Observer {
             if (it?.happen != false) return@Observer; activity ?: return@Observer
             if (it.isRemove) removeFragment(activity.supportFragmentManager, it)
-            else replaceFragment(activity.supportFragmentManager, it)
+            else replaceFragment(activity, it)
         })
     }
 
-    private fun replaceFragment(manager: FragmentManager, event: FragmentEvent) {
+    private fun replaceFragment(activity: FragmentActivity, event: FragmentEvent) {
+        val manager = activity.supportFragmentManager
         val transaction = manager.beginTransaction()
-        val fragment = createFragment(event)
+        if (event.type == BACK) getViewModelFragment<TakePhotoViewModelImpl>(manager, TAKE_PHONE.name ).let {
+            when {
+                it == null -> activity.finish()
+                it.onBackIsFinish() -> activity.finish()
+            }
+        }
+        val fragment = createFragment(event)?:return
         if (fragment is DialogFragment) return fragment.show(manager, event.type.name)
         when(event.type.animation){
             AnimationType.RIGHT_TO_LEFT-> {
@@ -51,6 +59,7 @@ object FragmentUtil {
         TAKE_DOC        -> TakeDocFragment.newInstance()
         CHOOSE_PHOTO    -> ChoosePhoto.newInstance()
         INFORMATION     -> InformationFragment.newInstance()
+        else -> null
     }
 
     private fun removeFragment(manager: FragmentManager, event: FragmentEvent) {
@@ -58,22 +67,17 @@ object FragmentUtil {
         manager.beginTransaction().remove(fragment).commit()
     }
 }
-
-inline fun <reified T: ViewModelBase> getViewModelFragment(activity: FragmentActivity?, vararg tags :String?): T?{
+inline fun <reified T: ViewModelBase> getViewModelFragment(manager: FragmentManager?, vararg tags :String?): T?{
     tags.map { tag ->
-        activity?.supportFragmentManager?.findFragmentByTag(tag)?.let {
+        manager?.findFragmentByTag(tag)?.let {
             return ViewModelProvider(it).get(T::class.java)
         }
     }
     return null
 }
 
-fun getFragment(activity: FragmentActivity?, vararg tags :String?): Fragment?{
-    tags.map { tag ->
-        activity?.supportFragmentManager?.findFragmentByTag(tag)?.let {
-            return it
-        }
-    }
+fun getFragment(activity: FragmentActivity?, tag :String?): Fragment?{
+    activity?.supportFragmentManager?.findFragmentByTag(tag)?.let { return it}
     return null
 }
 
@@ -90,7 +94,8 @@ enum class FragmentType(
     TAKE_PHONE,
     TAKE_DOC,
     CHOOSE_PHOTO,
-    INFORMATION
+    INFORMATION,
+    BACK
 }
 enum class AnimationType{
     NONE,

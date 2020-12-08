@@ -1,20 +1,13 @@
 package com.aks.didi.ui.photo
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.aks.didi.model.CacheData
-import com.aks.didi.model.FromSend
 import com.aks.didi.ui.base.viewmodel.ViewModelBase
 import com.aks.didi.utils.FragmentViewModel
 import com.aks.didi.utils.SharedViewModel
 import com.aks.didi.utils.fragment.FragmentEvent
 import com.aks.didi.utils.fragment.FragmentType
-import okhttp3.*
-import okhttp3.RequestBody.Companion.toRequestBody
-import okio.Buffer
-import okio.IOException
-import java.util.*
 
 
 interface TakePhotoViewModel: FragmentViewModel, SharedViewModel {
@@ -30,6 +23,7 @@ interface TakePhotoViewModel: FragmentViewModel, SharedViewModel {
     fun onCity(city: String)
     fun onCityEntry(str: String)
     fun onNext()
+    fun onBackIsFinish(): Boolean
 }
 
 class TakePhotoViewModelImpl: ViewModelBase(), TakePhotoViewModel{
@@ -76,6 +70,13 @@ class TakePhotoViewModelImpl: ViewModelBase(), TakePhotoViewModel{
         isCity = true
         onCheckEntry()
     }
+
+    override fun onBackIsFinish() =
+            if (!isFocusCity.value!!) true
+            else {
+                isFocusCity.postValue(false)
+                false
+            }
 
     override fun onCityEntry(str: String){
         cities.postValue(defaultCities.filter { it.contains(str, ignoreCase = true) })

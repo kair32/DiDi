@@ -78,19 +78,35 @@
         <EditText
             android:id="@+id/et_city"
             style="@style/EditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20"
             android:layout_marginStart="@dimen/margin_16"
             android:layout_marginEnd="@dimen/margin_16"
             android:paddingTop="@dimen/margin_10"
             android:paddingBottom="@dimen/margin_10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:onTextChanged="@{(text, _1, _2, _3) -> viewModel.onCityEntry(text.toString)}"
             android:text="@{viewModel.city}"
             android:hint="@string/city"
             android:focusableInTouchMode="true"
             bind:topTopParentConstraint="@{viewModel.isFocusCity? 0: R.id.et_phone}"
-            tools:layout_constraintTop_toBottomOf="@+id/et_phone"/>
+            tools:layout_constraintTop_toBottomOf="@+id/et_phone"
+            bind:layout_constraintStart_toStartOf="parent"
+            bind:layout_constraintEnd_toStartOf="@+id/iv_close"/>
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:src="@drawable/ic_delete"
+            bind:isVisible="@{viewModel.isFocusCity}"
+            android:foreground="?android:attr/actionBarItemBackground"
+            android:onClick="@{()->viewModel.onBackIsFinish()}"
+            bind:layout_constraintStart_toEndOf="@+id/et_city"
+            bind:layout_constraintTop_toTopOf="@+id/et_city"
+            bind:layout_constraintBottom_toBottomOf="@+id/et_city"
+            bind:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
             style="@style/TextView"
