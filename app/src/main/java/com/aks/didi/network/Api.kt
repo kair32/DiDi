@@ -32,6 +32,23 @@ interface Api {
             @Query("uid") uid: UUID = UUID.randomUUID()
     ): Response<ResponseWrapper>
 
+    @POST("form/send")
+    @Headers("accept: application/json")
+    suspend fun sendSecond(
+            @Header("authorization") sid: String,
+            @Query("fullname") fullname: String,
+            @Query("tel") phone: String,
+            @Query("city") city: String,
+            @Query("sts_front") stsFront: String,
+            @Query("sts_back") stsBack: String,
+            @Query("vu_front") vuFront: String,
+            @Query("vu_back") vuBack: String,
+            @Query("pasport") pasport: String,
+            @Query("vu_self") vuSelf: String,
+            @Query("form") from: String = "bid.main.didi",
+            @Query("uid") uid: UUID = UUID.randomUUID()
+    ): Response<ResponseWrapper>
+
     @Multipart
     @POST("form/file/upload")
     @Headers("Accept: application/json","Content-Type: multipart/form-data;boundary=-------------573cf973d5228")

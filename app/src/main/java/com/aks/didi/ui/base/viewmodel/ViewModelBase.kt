@@ -40,7 +40,7 @@ abstract class ViewModelBase: ViewModel(), FragmentViewModel, ActivityStartViewM
     protected fun startActivity(event: ActivityStartEvent) = activityStartLiveData.postValue(event)
     protected fun checkPermission(event: PermissionEvent) = permissionLiveData.postValue(event)
 
-    protected open fun showPopUp(text: String) = popUpLiveData.postValue(text)
+    protected open fun showPopUp(text: String?) { if (!text.isNullOrBlank()) popUpLiveData.postValue(text)}
     protected open fun showPopUp(res: Int) = popUpLiveDataInt.postValue(res)
 
     //region запросы

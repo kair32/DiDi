@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 interface PopUpViewModel {
     val isPopUpVisible: LiveData<Boolean>
     val popUpText: LiveData<String>
-    fun showPopUp(text: String)
+    fun showPopUp(text: String?)
 }
 
 interface MainViewModel: FragmentViewModel, PopUpViewModel{
@@ -27,7 +27,8 @@ class MainViewModelImpl: ViewModelBase(), MainViewModel{
     override val isPopUpVisible = MutableLiveData<Boolean>()
     override val popUpText = MutableLiveData<String>("")
 
-    override fun showPopUp(text: String) {
+    override fun showPopUp(text: String?) {
+        if (text.isNullOrBlank()) return
         popUpText.postValue(text)
         isPopUpVisible.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
@@ -43,7 +44,7 @@ class MainViewModelImpl: ViewModelBase(), MainViewModel{
                     auth.accessToken?.let { CacheData.sid = it}
                     replaceFragment(FragmentEvent(FragmentType.TAKE_PHONE))
                 },
-                { if (!it.isNullOrBlank()) showPopUp(it)}
+                { showPopUp(it)}
         )
     }
 }

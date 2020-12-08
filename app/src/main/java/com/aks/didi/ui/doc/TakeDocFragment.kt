@@ -89,9 +89,8 @@ class TakeDocFragment: Fragment(), OnCompressListener {
     override fun onSuccess(file: File?) {
         if(file == null || item == null) return
 
-        item!!.filePath.value = file
         viewModel.imagePath = file.path
-        viewModel.onTakePhotoSuccess(file, item!!.formfield)
+        viewModel.onTakePhotoSuccess(file, item!!)
     }
 
     override fun onError(e: Throwable?){ Log.e("Luban","${e?.message}") }

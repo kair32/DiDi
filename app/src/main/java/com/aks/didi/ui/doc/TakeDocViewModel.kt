@@ -1,5 +1,6 @@
 package com.aks.didi.ui.doc
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.aks.didi.R
@@ -29,9 +30,10 @@ interface TakeDocViewModel: FragmentViewModel, SharedViewModel, PermissionViewMo
     val isPermissionCameraGranted: LiveData<Boolean>
     val isNextEnabled: LiveData<Boolean>
     val takePhoto: LiveData<DocItem>
+    val listAdapter: List<DocItems>
 
     fun onNext()
-    fun onTakePhotoSuccess(file: File, formfield: String)
+    fun onTakePhotoSuccess(file: File, item: DocItem)
     fun onTakePhoto(item: DocItem)
 }
 
@@ -41,9 +43,23 @@ class TakeDocViewModelImpl: ViewModelBase(), TakeDocViewModel, PermissionListene
     override val isPermissionCameraGranted = MutableLiveData(false)
     override val isNextEnabled = MutableLiveData(true)
     override val takePhoto = MutableLiveData<DocItem>()
+    override val listAdapter = listOf(
+            DocTitle(),
+            DocText(R.string.load_sts),
+            DocItem(R.string.facial_sts, FormField.STS_FRONT),
+            DocItem(R.string.working_sts, FormField.STS_BACK),
+            DocText(R.string.load_vy),
+            DocItem(R.string.facial_vy, FormField.VU_FRONT),
+            DocItem(R.string.working_vy, FormField.VU_BACK),
+            DocItem(R.string.you_photo_vy, FormField.VU_SELF),
+            DocText(R.string.load_passport),
+            DocItem(R.string.passport_photo, FormField.PASPORT),
+            DocButton(),
+    )
 
     init {
         checkPermission(PermissionEvent(PermissionType.CAMERA))
+        checkNext()
     }
 
     override fun onTakePhoto(item: DocItem) =
@@ -53,13 +69,44 @@ class TakeDocViewModelImpl: ViewModelBase(), TakeDocViewModel, PermissionListene
         }
         else checkPermission(PermissionEvent(PermissionType.CAMERA))
 
-    override fun onNext() = replaceFragment(FragmentEvent(FragmentType.INFORMATION))
+    override fun onNext() {
+        replaceFragment(FragmentEvent(FragmentType.INFORMATION))
+        listAdapter
+                .filter { it.type == DocType.ITEM }
+                .map    { it as DocItem }
+                .map    { it.formfield }
+                .apply {
+                    requestWithCallback({
+                        api.sendSecond(CacheData.sid, "", "", "",
+                                getFileId(FormField.STS_FRONT),
+                                getFileId(FormField.STS_BACK),
+                                getFileId(FormField.VU_FRONT),
+                                getFileId(FormField.VU_BACK),
+                                getFileId(FormField.PASPORT),
+                                getFileId(FormField.VU_SELF))
+                    }, {
+                        replaceFragment(FragmentEvent(FragmentType.INFORMATION))
+                    }, { showPopUp(it) })
+                }
+    }
 
-    override fun onTakePhotoSuccess(file: File, formfield: String) {
-        val part = MultipartBody.Part.createFormData("files", null, file.asRequestBody("image/".toMediaTypeOrNull()))
-        requestWithCallback({api.loadImage(CacheData.sid,part, formfield)},{
-        },{
-        })
+    private fun List<FormField>.getFileId(formField: FormField) = this.find { it == formField }!!.fileId!!
+
+    private fun checkNext() =
+        isNextEnabled.postValue(listAdapter
+                .filter { it.type == DocType.ITEM }
+                .map    { it as DocItem }
+                .any    { it.formfield.fileId != null }
+        )
+
+    override fun onTakePhotoSuccess(file: File, item: DocItem) {
+        item.filePath.value = file
+        checkNext()
+        /*val part = MultipartBody.Part.createFormData("files", null, file.asRequestBody("image/".toMediaTypeOrNull()))
+        requestWithCallback({api.loadImage(CacheData.sid,part, item.formfield.filed)},{
+            item.formfield.fileId = ""
+            item.filePath.value = file
+        },{ showPopUp(it)})*/
     }
 
     override fun onPermissionGranted(response: PermissionGrantedResponse?) { if (response?.permissionName == PermissionType.CAMERA.permission) isPermissionCameraGranted.postValue(true) }
