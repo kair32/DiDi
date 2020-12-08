@@ -7,6 +7,7 @@ import com.aks.didi.model.CacheData
 import com.aks.didi.network.Status
 import com.aks.didi.ui.base.viewmodel.ViewModelBase
 import com.aks.didi.utils.FragmentViewModel
+import com.aks.didi.utils.PreferencesBasket
 import com.aks.didi.utils.fragment.FragmentEvent
 import com.aks.didi.utils.fragment.FragmentType
 import kotlinx.coroutines.Dispatchers
@@ -21,9 +22,12 @@ interface PopUpViewModel {
 
 interface MainViewModel: FragmentViewModel, PopUpViewModel{
     val isLoading: MutableLiveData<Status>
+    fun setToken()
 }
 
-class MainViewModelImpl: ViewModelBase(), MainViewModel{
+class MainViewModelImpl(
+    private val preferences: PreferencesBasket
+): ViewModelBase(), MainViewModel{
     override val isPopUpVisible = MutableLiveData<Boolean>()
     override val popUpText = MutableLiveData<String>("")
 
@@ -39,12 +43,36 @@ class MainViewModelImpl: ViewModelBase(), MainViewModel{
     }
 
     init {
-        requestWithCallback({api.auth()},
-                { auth->
-                    auth.accessToken?.let { CacheData.sid = it}
-                    replaceFragment(FragmentEvent(FragmentType.TAKE_PHONE))
+        if (preferences.getCookie() == null)
+            setToken()
+        else{
+            CacheData.sid.value = preferences.getCookie()!!
+            requestWithCallback({api.checkToken(CacheData.sid.value!!)},
+                {
+                    replaceFragment(FragmentEvent(
+                        if (preferences.isFirstDataSuccessful())
+                                FragmentType.TAKE_DOC
+                        else    FragmentType.TAKE_PHONE))
                 },
-                { showPopUp(it)}
+                {
+                    preferences.setCookie(null)
+                    preferences.firstDataSuccessful(false)
+                    setToken()
+                }
+            )
+        }
+    }
+
+    override fun setToken(){
+        requestWithCallback({api.auth()},
+            { auth->
+                auth.accessToken?.let {
+                    preferences.setCookie(it)
+                    CacheData.sid.postValue(it)
+                }
+                replaceFragment(FragmentEvent(FragmentType.TAKE_PHONE))
+            },
+            { showPopUp(it)}
         )
     }
 }

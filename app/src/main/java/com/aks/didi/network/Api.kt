@@ -14,6 +14,12 @@ interface Api {
     @Headers("accept: application/json","content-type: application/json")
     suspend fun auth(): Response<Auth>
 
+    @GET("checktoken?client_id=taxididi.app")
+    @Headers("accept: application/json","content-type: application/json")
+    suspend fun checkToken(
+        @Query("token") sid: String
+    ): Response<Auth>
+
     @GET("city/getlist")
     @Headers("accept: application/json")
     suspend fun getCityList(

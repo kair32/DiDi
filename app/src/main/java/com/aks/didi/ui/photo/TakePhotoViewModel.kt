@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.aks.didi.model.CacheData
 import com.aks.didi.ui.base.viewmodel.ViewModelBase
 import com.aks.didi.utils.FragmentViewModel
+import com.aks.didi.utils.PreferencesBasket
 import com.aks.didi.utils.SharedViewModel
 import com.aks.didi.utils.fragment.FragmentEvent
 import com.aks.didi.utils.fragment.FragmentType
@@ -26,7 +27,9 @@ interface TakePhotoViewModel: FragmentViewModel, SharedViewModel {
     fun onBackIsFinish(): Boolean
 }
 
-class TakePhotoViewModelImpl: ViewModelBase(), TakePhotoViewModel{
+class TakePhotoViewModelImpl(
+    private val preferences: PreferencesBasket
+): ViewModelBase(), TakePhotoViewModel{
     override val phone = MutableLiveData<String>("")
     override val fio = MutableLiveData<String>("")
     override val isFocusCity = MutableLiveData<Boolean>(false)
@@ -40,7 +43,7 @@ class TakePhotoViewModelImpl: ViewModelBase(), TakePhotoViewModel{
     private var isFio: Boolean = false
 
     init {
-        requestWithCallback({ api.getCityList(CacheData.sid) },
+        requestWithCallback({ api.getCityList(CacheData.sid.value!!) },
                 {
                     cities.postValue(it.result ?: listOf())
                     defaultCities.addAll(it.result ?: listOf())
@@ -83,10 +86,11 @@ class TakePhotoViewModelImpl: ViewModelBase(), TakePhotoViewModel{
     }
 
     override fun onNext() {
-        replaceFragment(FragmentEvent(FragmentType.TAKE_DOC))/*
+        //replaceFragment(FragmentEvent(FragmentType.TAKE_DOC))
         if (fio.value != null && phone.value != null && city.value != null)
-        requestWithCallback({api.sendFirst(CacheData.sid, fio.value!!, "7"+phone.value!!, city.value!!)},{
+        requestWithCallback({api.sendFirst(CacheData.sid.value!!, fio.value!!, "7"+phone.value!!, city.value!!)},{
             replaceFragment(FragmentEvent(FragmentType.TAKE_DOC))
-        },{ if (!it.isNullOrBlank()) showPopUp(it) })*/
+            preferences.firstDataSuccessful(true)
+        },{ if (!it.isNullOrBlank()) showPopUp(it) })
     }
 }

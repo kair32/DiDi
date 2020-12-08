@@ -10,7 +10,9 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.aks.didi.databinding.FragmentTakePhoneBinding
+import com.aks.didi.ui.base.activity.main.MainActivity
 import com.aks.didi.ui.base.helpers.setFocus
+import com.aks.didi.utils.ViewModelFactory
 import com.aks.didi.utils.fragment.FragmentUtil
 import com.aks.didi.utils.shared.SharedUtil
 
@@ -25,7 +27,8 @@ class TakePhotoFragment: Fragment() {
     }
 
     private fun init() {
-        viewModel = ViewModelProvider(this).get(TakePhotoViewModelImpl::class.java)
+        val factory = ViewModelFactory((activity as MainActivity).preference)
+        viewModel = ViewModelProvider(this, factory).get(TakePhotoViewModelImpl::class.java)
         fragmentUtil.observe(this, viewModel, activity)
         sharedUtil.observe(this, viewModel, activity)
     }

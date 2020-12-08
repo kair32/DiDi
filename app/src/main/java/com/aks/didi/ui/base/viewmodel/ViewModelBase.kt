@@ -3,6 +3,7 @@ package com.aks.didi.ui.base.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aks.didi.model.CacheData
 import com.aks.didi.model.RequestWrapper
 import com.aks.didi.network.Api
 import com.aks.didi.network.NetworkService
@@ -14,6 +15,7 @@ import com.aks.didi.utils.SharedViewModel
 import com.aks.didi.utils.activity.ActivityStartEvent
 import com.aks.didi.utils.fragment.FragmentEvent
 import com.aks.didi.utils.fragment.FragmentType
+import com.aks.didi.utils.fragment.getViewModelFragment
 import com.aks.didi.utils.permissions.PermissionEvent
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -66,10 +68,12 @@ abstract class ViewModelBase: ViewModel(), FragmentViewModel, ActivityStartViewM
                             maps?.values?.joinToString(", ").let { errorCallback?.invoke(it)}
                             isLoading.postValue(Status.ERROR)
                         } else {
+                            checkOldToken(res.code())
                             response(res.body()!!)
                             isLoading.postValue(Status.SUCCESS)
                         }
                     } else if (res.errorBody() != null) {
+                        checkOldToken(res.code())
                         errorCallback?.invoke(getError(res.errorBody()))
                         isLoading.postValue(Status.ERROR)
                     }
@@ -82,6 +86,11 @@ abstract class ViewModelBase: ViewModel(), FragmentViewModel, ActivityStartViewM
                 }
             }
         }
+    }
+
+    private fun checkOldToken(code: Int){
+        if (code == 403)
+            CacheData.sid.postValue("")
     }
 
     private fun getError(errorBody: ResponseBody?): String?{

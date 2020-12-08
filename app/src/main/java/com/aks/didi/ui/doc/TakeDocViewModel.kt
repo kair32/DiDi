@@ -77,7 +77,7 @@ class TakeDocViewModelImpl: ViewModelBase(), TakeDocViewModel, PermissionListene
                 .map    { it.formfield }
                 .apply {
                     requestWithCallback({
-                        api.sendSecond(CacheData.sid, "", "", "",
+                        api.sendSecond(CacheData.sid.value!!, "", "", "",
                                 getFileId(FormField.STS_FRONT),
                                 getFileId(FormField.STS_BACK),
                                 getFileId(FormField.VU_FRONT),
@@ -100,13 +100,14 @@ class TakeDocViewModelImpl: ViewModelBase(), TakeDocViewModel, PermissionListene
         )
 
     override fun onTakePhotoSuccess(file: File, item: DocItem) {
-        item.filePath.value = file
-        checkNext()
-        /*val part = MultipartBody.Part.createFormData("files", null, file.asRequestBody("image/".toMediaTypeOrNull()))
-        requestWithCallback({api.loadImage(CacheData.sid,part, item.formfield.filed)},{
+        /*item.filePath.value = file
+        checkNext()*/
+        val part = MultipartBody.Part.createFormData("files", null, file.asRequestBody("image/".toMediaTypeOrNull()))
+        requestWithCallback({api.loadImage(CacheData.sid.value!!,part, item.formfield.filed)},{
             item.formfield.fileId = ""
-            item.filePath.value = file
-        },{ showPopUp(it)})*/
+            item.filePath.postValue(file)
+            checkNext()
+        },{ showPopUp(it)})
     }
 
     override fun onPermissionGranted(response: PermissionGrantedResponse?) { if (response?.permissionName == PermissionType.CAMERA.permission) isPermissionCameraGranted.postValue(true) }
