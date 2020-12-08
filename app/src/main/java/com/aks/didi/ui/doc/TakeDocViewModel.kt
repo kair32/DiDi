@@ -31,7 +31,7 @@ interface TakeDocViewModel: FragmentViewModel, SharedViewModel, PermissionViewMo
     val takePhoto: LiveData<DocItem>
 
     fun onNext()
-    fun onTakePhotoSuccess(file: File)
+    fun onTakePhotoSuccess(file: File, formfield: String)
     fun onTakePhoto(item: DocItem)
 }
 
@@ -55,12 +55,10 @@ class TakeDocViewModelImpl: ViewModelBase(), TakeDocViewModel, PermissionListene
 
     override fun onNext() = replaceFragment(FragmentEvent(FragmentType.INFORMATION))
 
-    override fun onTakePhotoSuccess(file: File) {
+    override fun onTakePhotoSuccess(file: File, formfield: String) {
         val part = MultipartBody.Part.createFormData("files", null, file.asRequestBody("image/".toMediaTypeOrNull()))
-        requestWithCallback({api.loadImage(CacheData.sid,part)},{
-
+        requestWithCallback({api.loadImage(CacheData.sid,part, formfield)},{
         },{
-
         })
     }
 

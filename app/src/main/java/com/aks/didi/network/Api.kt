@@ -38,7 +38,7 @@ interface Api {
     suspend fun loadImage(
             @Header("Authorization") sid: String,
             @Part image: MultipartBody.Part,
-            @Query("formfield") formfield: String = "sts_front",
+            @Query("formfield") formfield: String,
             @Query("form") from: String = "bid.main.didi",
             @Query("uid") uid: UUID = UUID.randomUUID()
     ): Response<ResponseWrapper>

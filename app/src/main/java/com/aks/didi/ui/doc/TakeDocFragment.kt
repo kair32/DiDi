@@ -3,11 +3,8 @@ package com.aks.didi.ui.doc
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
-import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,8 +16,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.aks.didi.BuildConfig
 import com.aks.didi.databinding.FragmentDocBinding
-import com.aks.didi.ui.photo.TakePhotoViewModelImpl
 import com.aks.didi.utils.activity.ActivityType
+import com.aks.didi.utils.file.FileUtil
 import com.aks.didi.utils.fragment.FragmentUtil
 import com.aks.didi.utils.permissions.PermissionUtil
 import com.aks.didi.utils.shared.SharedUtil
@@ -77,76 +74,27 @@ class TakeDocFragment: Fragment(), OnCompressListener {
     }
 
     private fun getPathFromData(data: Intent?) {
-       /* data ?: return
-        var realPath = String()
-        val uri = data.data
-        data.data?.let { path ->
-
-            var databaseUri: Uri
-            val selection: String?
-            val selectionArgs: Array<String>?
-            if (path.contains("/document/image:")) { // files selected from "Documents"
-                databaseUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                selection = "_id=?"
-                selectionArgs = arrayOf(DocumentsContract.getDocumentId(uri).split(":")[1])
-            } else { // files selected from all other sources, especially on Samsung devices
-                //databaseUri = uri
-                selection = null
-                selectionArgs = null
-            }
-            try {
-                val column = "_data"
-                val projection = arrayOf(column)
-                val cursor = context?.contentResolver?.query(
-                        databaseUri,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null
-                )
-                cursor?.let {
-                    if (it.moveToFirst()) {
-                        val columnIndex = cursor.getColumnIndexOrThrow(column)
-                        realPath = cursor.getString(columnIndex)
-                    }
-                    cursor.close()
-                }
-            } catch (e: Exception) {
-                println(e)
-            }
+        if (activity == null || data == null) return
+        FileUtil.from(activity!!, data.data)?.let {
+            luban(it)
         }
-        item?.filePath?.value = File(realPath)
-        luban(File(realPath))*/
-        /*data ?: return
-
-        val image = data.data ?: return
-        val path: String = activity!!.contentResolver?.query(image, null, null, null, null)?.use {
-            it.moveToFirst()
-            val idx = it.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-            return@use if (idx >= 0) it.getString(idx) else null
-        } ?: image.path ?: return
-        item?.filePath?.value = File(path)
-        luban(File(path))*/
     }
 
     private fun luban(file: File) =
         me.shaohui.advancedluban.Luban.compress(activity, file)
-            //.setMaxSize(199990)
             .setMaxSize(5000)
             .putGear(me.shaohui.advancedluban.Luban.CUSTOM_GEAR)
             .launch(this)
 
     override fun onSuccess(file: File?) {
-        if (file!=null) {
-            item?.filePath?.value = file
-            viewModel.imagePath = file.path
-            viewModel.onTakePhotoSuccess(file)
-        }
+        if(file == null || item == null) return
+
+        item!!.filePath.value = file
+        viewModel.imagePath = file.path
+        viewModel.onTakePhotoSuccess(file, item!!.formfield)
     }
 
-    override fun onError(e: Throwable?) {
-        Log.d("","")
-    }
+    override fun onError(e: Throwable?){ Log.e("Luban","${e?.message}") }
 
     private var photoFile: File? = null
     private val photoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -165,7 +113,7 @@ class TakeDocFragment: Fragment(), OnCompressListener {
 
     fun pickImage() {
         if (ContextCompat.checkSelfPermission(context!!, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            val intent = Intent(Intent.ACTION_PICK).apply {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
                 type = "image/*"
                 action = Intent.ACTION_GET_CONTENT
             }

@@ -82,9 +82,10 @@ class TakePhotoViewModelImpl: ViewModelBase(), TakePhotoViewModel{
     }
 
     override fun onNext() {
+        replaceFragment(FragmentEvent(FragmentType.TAKE_DOC))/*
         if (fio.value != null && phone.value != null && city.value != null)
         requestWithCallback({api.sendFirst(CacheData.sid, fio.value!!, "7"+phone.value!!, city.value!!)},{
             replaceFragment(FragmentEvent(FragmentType.TAKE_DOC))
-        },{ if (!it.isNullOrBlank()) showPopUp(it) })
+        },{ if (!it.isNullOrBlank()) showPopUp(it) })*/
     }
 }

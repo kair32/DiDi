@@ -8,7 +8,7 @@ import java.io.File
 
 interface DocItems
 
-class DocItem(val title: Int): DocItems{
+class DocItem(val title: Int, val formfield: String): DocItems{
     val filePath = MutableLiveData<File>()
 }
 class DocText(val text: Int): DocItems
@@ -25,14 +25,14 @@ class DocAdapter(viewModel: TakeDocViewModel): ViewModelAdapter<DocItems>() {
         update(listOf(
             DocTitle(),
             DocText(R.string.load_sts),
-            DocItem(R.string.facial_sts),
-            DocItem(R.string.working_sts),
+            DocItem(R.string.facial_sts, "sts_front"),
+            DocItem(R.string.working_sts, "sts_back"),
             DocText(R.string.load_vy),
-            DocItem(R.string.facial_vy),
-            DocItem(R.string.working_vy),
-            DocItem(R.string.you_photo_vy),
+            DocItem(R.string.facial_vy, "vu_front"),
+            DocItem(R.string.working_vy, "vu_back"),
+            DocItem(R.string.you_photo_vy, "vu_self"),
             DocText(R.string.load_passport),
-            DocItem(R.string.passport_photo),
+            DocItem(R.string.passport_photo, "pasport"),
             DocButton(),
         ))
     }
