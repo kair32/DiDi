@@ -1,9 +1,12 @@
 package com.aks.didi.ui.base.helpers
 
 import android.content.Context
+import android.content.res.Resources
+import android.graphics.drawable.ColorDrawable
 import android.os.Handler
 import android.os.Looper
 import android.transition.TransitionManager
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -12,10 +15,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.MutableLiveData
 import coil.load
 import coil.size.Scale
 import com.aks.didi.R
+import com.aks.didi.ui.doc.DocItem
 import com.aks.didi.ui.photo.TakePhotoViewModel
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 import java.io.File
@@ -27,6 +33,15 @@ fun setVisibility(view: View, isVisible: Boolean) {
 
 @BindingAdapter("textBin")
 fun setTextBin(view: TextView, res: Int?) = if (res!=null && res != 0) view.setText(res) else Unit
+
+@BindingAdapter("textColorBin")
+fun setTextColor(view: TextView, color: Int) {
+    if (color != 0)
+        view.setTextColor(
+                try { ContextCompat.getColor(view.context, color) }
+                catch (ex: Resources.NotFoundException){ color }
+        )
+}
 
 @BindingAdapter("setFocus")
 fun setFocus(et: EditText, isFocus: Boolean?){
@@ -90,9 +105,17 @@ fun setTopTopParentConstraint(view: View, id: Int) {
     }
 }
 
-@BindingAdapter("loadImage")
-fun setLoadImage(iv: ImageView, path: String?){
+@BindingAdapter(value = ["loadImage","isLoadImage"], requireAll = false)
+fun setLoadImage(iv: ImageView, path: String?, item: DocItem){
+    if (path.isNullOrBlank()) return
     iv.load(path){
         scale(Scale.FILL)
+        this.target({},{
+            item.textColor.postValue(R.color.red)
+            item.text.postValue(R.string.fail_load)
+        },{
+            item.textColor.postValue(R.color.green)
+            item.text.postValue(R.string.successful_load)
+        })
     }
 }

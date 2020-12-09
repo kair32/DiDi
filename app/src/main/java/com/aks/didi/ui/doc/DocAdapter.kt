@@ -12,6 +12,8 @@ interface DocItems{
 
 class DocItem(val title: Int, val formfield: FormField): DocItems{
     val filePath = MutableLiveData<String>()
+    val text = MutableLiveData<Int>(R.string.tap_load_photo)
+    val textColor = MutableLiveData<Int>(0)
     override val type: DocType = DocType.ITEM
 }
 class DocText(val text: Int, override val type: DocType = DocType.TEXT): DocItems

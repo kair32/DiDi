@@ -50,7 +50,9 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_header_16"
                 android:fontFamily="@font/open_sans_600"
-                android:text="@string/tap_load_photo"/>
+                bind:textColorBin="@{item.textColor}"
+                bind:textBin="@{item.text}"
+                tools:text="@string/load_sts"/>
 
         </LinearLayout>
 
@@ -59,6 +61,7 @@
             android:layout_width="@dimen/size_40"
             android:layout_height="@dimen/size_40"
             bind:loadImage="@{item.filePath}"
+            bind:isLoadImage="@{item}"
             android:scaleType="centerCrop"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"/>

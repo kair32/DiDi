@@ -11,4 +11,6 @@
     <color name="background">#eaecf0</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#F30000</color>
+    <color name="green">#00BA09</color>
 </resources>

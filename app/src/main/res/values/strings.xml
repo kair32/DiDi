@@ -13,6 +13,8 @@
     <string name="registration_text">Регистрация в агрегаторе такси Didi</string>
     <string name="load_sts">Загрузка СТС</string>
     <string name="facial_sts">Лицевая сторона СТС</string>
+    <string name="fail_load">Ошибка загрузки</string>
+    <string name="successful_load">Фотография загружена</string>
     <string name="facial_sts_successful">Лицевая сторона СТС загружена</string>
     <string name="facial_sts_fail">Ошибка загрузки лицевой стороны СТС</string>
     <string name="working_sts">Оборотная сторона СТС</string>
