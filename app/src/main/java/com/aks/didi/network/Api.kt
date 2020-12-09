@@ -42,12 +42,12 @@ interface Api {
             @Query("fullname") fullname: String,
             @Query("tel") phone: String,
             @Query("city") city: String,
-            @Query("sts_front") stsFront: String,
-            @Query("sts_back") stsBack: String,
-            @Query("vu_front") vuFront: String,
-            @Query("vu_back") vuBack: String,
-            @Query("pasport") pasport: String,
-            @Query("vu_self") vuSelf: String,
+            @Query("sts_front") stsFront: String?,
+            @Query("sts_back") stsBack: String?,
+            @Query("vu_front") vuFront: String?,
+            @Query("vu_back") vuBack: String?,
+            @Query("pasport") pasport: String?,
+            @Query("vu_self") vuSelf: String?,
             @Query("uid") uid: UUID,
             @Query("form") from: String = "bid.main.didi"
     ): Response<ResponseWrapper>

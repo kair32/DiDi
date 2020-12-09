@@ -209,7 +209,6 @@
             <include
                 layout="@layout/table_layout" />
 
-
             <Button
                 android:id="@+id/bt"
                 android:layout_width="match_parent"

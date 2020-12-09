@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">DiDi</string>
-    
+    <string name="error_server">Сервис временно недоступен</string>
+    <string name="repeat">Повторить</string>
+
     <string name="SNMn">ФИО</string>
     <string name="phone">Телефон</string>
     <string name="city">Поиск города</string>
@@ -16,25 +18,13 @@
     <string name="facial_sts">Лицевая сторона СТС</string>
     <string name="fail_load">Ошибка загрузки</string>
     <string name="successful_load">Фотография загружена</string>
-    <string name="facial_sts_successful">Лицевая сторона СТС загружена</string>
-    <string name="facial_sts_fail">Ошибка загрузки лицевой стороны СТС</string>
     <string name="working_sts">Оборотная сторона СТС</string>
-    <string name="working_sts_successful">Оборотная сторона СТС загружена</string>
-    <string name="working_sts_fail">Ошибка загрузки оборотной стороны СТС</string>
     <string name="load_vy">Загрузка водительского удостоверения</string>
     <string name="facial_vy">Водительское удостоверение лицевая сторона</string>
-    <string name="facial_vy_successful">Лицевая сторона ВУ загружена</string>
-    <string name="facial_vy_fail">Ошибка загрузки лицевой стороны ВУ</string>
     <string name="working_vy">Водительское удостоверение оборотная сторона</string>
-    <string name="working_vy_successful">Обратная сторона ВУ загружена</string>
-    <string name="working_vy_fail">Ошибка загрузки обратной стороны ВУ</string>
     <string name="load_passport">Загрузка паспорта</string>
     <string name="passport_photo">Страница паспорта с фотографией</string>
-    <string name="passport_photo_successful">Первый разворот паспорта загружена</string>
-    <string name="passport_photo_fail">Ошибка загрузки первого разворота паспорта</string>
     <string name="you_photo_vy">Селфи с водительским удостоверением</string>
-    <string name="you_photo_vy_successful">Селфи с ВУ загружена</string>
-    <string name="you_photo_vy_fail">Ошибка загрузки селфи с ВУ</string>
     <string name="tap_load_photo">Нажмите для загрузки фото</string>
     <string name="photo_loaded">Фотография загружена</string>
     <string name="take_photo">Сделать фотографию</string>

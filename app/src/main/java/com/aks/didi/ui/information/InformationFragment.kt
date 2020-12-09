@@ -13,8 +13,8 @@ class InformationFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentInformationBinding.inflate(inflater, container, false)
 
-        binding.bt.setOnClickListener { CacheData.sid.postValue(null) }
-        
+        binding.bt.setOnClickListener { CacheData.sid.value = (null) }
+
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
