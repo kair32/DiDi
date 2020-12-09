@@ -48,8 +48,8 @@ interface Api {
             @Query("vu_back") vuBack: String,
             @Query("pasport") pasport: String,
             @Query("vu_self") vuSelf: String,
-            @Query("form") from: String = "bid.main.didi",
-            @Query("uid") uid: UUID = UUID.randomUUID()
+            @Query("uid") uid: UUID,
+            @Query("form") from: String = "bid.main.didi"
     ): Response<ResponseWrapper>
 
     @POST("form/file/upload")
@@ -58,7 +58,7 @@ interface Api {
             @Header("Authorization") sid: String,
             @Body body: MultipartBody,
             @Query("formfield") formfield: String,
-            @Query("form") from: String = "bid.main.didi",
-            @Query("uid") uid: UUID = UUID.randomUUID()
+            @Query("uid") uid: UUID,
+            @Query("form") from: String = "bid.main.didi"
     ): Response<LoadImage>
 }

@@ -3,10 +3,11 @@
     
     <string name="SNMn">ФИО</string>
     <string name="phone">Телефон</string>
-    <string name="city">Город</string>
+    <string name="city">Поиск города</string>
     <string name="next">Продолжить</string>
     <string name="enter_you_data">Введите ваши данные для регистрации</string>
     <string name="send_request">Отправить заявку</string>
+    <string name="register_another_driver">Зарегистрировать ещё одного водителя</string>
     <string name="didi_txi_ru">DiDi такси в России</string>
     <string name="didi_text">Подключаем водителей, помогаем зарабатывать больше, и получать деньги вовремя с комиссией всего 9,5%</string>
 
@@ -28,7 +29,7 @@
     <string name="working_vy_successful">Обратная сторона ВУ загружена</string>
     <string name="working_vy_fail">Ошибка загрузки обратной стороны ВУ</string>
     <string name="load_passport">Загрузка паспорта</string>
-    <string name="passport_photo">Первый разворот паспорта</string>
+    <string name="passport_photo">Страница паспорта с фотографией</string>
     <string name="passport_photo_successful">Первый разворот паспорта загружена</string>
     <string name="passport_photo_fail">Ошибка загрузки первого разворота паспорта</string>
     <string name="you_photo_vy">Селфи с водительским удостоверением</string>
@@ -37,7 +38,7 @@
     <string name="tap_load_photo">Нажмите для загрузки фото</string>
     <string name="photo_loaded">Фотография загружена</string>
     <string name="take_photo">Сделать фотографию</string>
-    <string name="pick_photo">Выберать фотографию</string>
+    <string name="pick_photo">Выбрать из галереи</string>
 
 
     <string name="access_to_camera">Разрешите доступ приложения к камере</string>

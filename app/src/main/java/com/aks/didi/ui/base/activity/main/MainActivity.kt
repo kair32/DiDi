@@ -47,7 +47,7 @@ class MainActivity: AppCompatActivity() {
         CacheData.sid.observe(this){
             if (it.isNullOrBlank()) {
                 preference.setCookie(null)
-                preference.firstDataSuccessful(false)
+                preference.setDataSuccessful(0)
                 viewModel.setToken()
             }
         }

@@ -50,13 +50,16 @@ class MainViewModelImpl(
             requestWithCallback({api.checkToken(CacheData.sid.value!!)},
                 {
                     replaceFragment(FragmentEvent(
-                        if (preferences.isFirstDataSuccessful())
-                                FragmentType.TAKE_DOC
-                        else    FragmentType.TAKE_PHONE))
+                        when(preferences.getDataSuccessful()){
+                            0       -> FragmentType.TAKE_PHONE
+                            1       -> FragmentType.TAKE_DOC
+                            2       -> FragmentType.INFORMATION
+                            else    -> FragmentType.TAKE_PHONE
+                }))
                 },
                 {
                     preferences.setCookie(null)
-                    preferences.firstDataSuccessful(false)
+                    preferences.setDataSuccessful(0)
                     setToken()
                 }
             )

@@ -12,8 +12,8 @@ interface Preference{
     fun setCookie(cookie: String?)
     fun getCookie(): String?
 
-    fun firstDataSuccessful(isSuccessful: Boolean)
-    fun isFirstDataSuccessful(): Boolean
+    fun setDataSuccessful(value: Int)
+    fun getDataSuccessful(): Int
 
     fun setFio(fio: String)
     fun getFio(): String?
@@ -51,8 +51,8 @@ class PreferencesBasket(context: Context): Preference {
     override fun setCookie(cookie: String?) = preferences.edit().putString(KEY_COOKIE, cookie).apply()
     override fun getCookie(): String? = preferences.getString(KEY_COOKIE, null)
 
-    override fun firstDataSuccessful(isSuccessful: Boolean) = preferences.edit().putBoolean(KEY_FIRST_DATA_SUCCESSFUL, isSuccessful).apply()
-    override fun isFirstDataSuccessful(): Boolean = preferences.getBoolean(KEY_FIRST_DATA_SUCCESSFUL, false)
+    override fun setDataSuccessful(value: Int) = preferences.edit().putInt(KEY_FIRST_DATA_SUCCESSFUL, value).apply()
+    override fun getDataSuccessful(): Int = preferences.getInt(KEY_FIRST_DATA_SUCCESSFUL, 0)
 
     override fun setFio(fio: String) = preferences.edit().putString(KEY_FIO, fio).apply()
     override fun getFio(): String? = preferences.getString(KEY_FIO, null)

@@ -19,9 +19,11 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import coil.load
+import coil.request.ImageRequest
 import coil.size.Scale
 import com.aks.didi.R
 import com.aks.didi.ui.doc.DocItem
+import com.aks.didi.ui.doc.TakeDocViewModel
 import com.aks.didi.ui.photo.TakePhotoViewModel
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 import java.io.File
@@ -105,20 +107,23 @@ fun setTopTopParentConstraint(view: View, id: Int) {
     }
 }
 
-@BindingAdapter(value = ["loadImage","isLoadImage"], requireAll = false)
-fun setLoadImage(iv: ImageView, path: String?, item: DocItem){
+@BindingAdapter(value = ["loadImage","isLoadImage", "viewModelLoadImage"], requireAll = false)
+fun setLoadImage(iv: ImageView, path: String?, item: DocItem, viewModel: TakeDocViewModel){
     if (path.isNullOrBlank()) return
     iv.load(path){
         scale(Scale.FILL)
         this.target({},{
             item.isSuccessLoad = false
-            iv.load(R.drawable.ic_error_load)
+            iv.setImageDrawable(ContextCompat.getDrawable(iv.context, R.drawable.ic_error_load))
             item.textColor.postValue(R.color.red)
             item.text.postValue(R.string.fail_load)
+            viewModel.checkNext()
         },{
+            iv.setImageDrawable(it)
             item.isSuccessLoad = true
             item.textColor.postValue(R.color.green)
             item.text.postValue(R.string.successful_load)
+            viewModel.checkNext()
         })
     }
 }

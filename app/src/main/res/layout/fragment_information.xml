@@ -209,6 +209,22 @@
             <include
                 layout="@layout/table_layout" />
 
+
+            <Button
+                android:id="@+id/bt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_20"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:padding="@dimen/margin_10"
+                android:fontFamily="@font/open_sans_600"
+                android:textSize="@dimen/text_header_16"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginEnd="@dimen/margin_16"
+                android:text="@string/register_another_driver"
+                android:textColor="@color/white"
+                bind:layout_constraintTop_toBottomOf="@+id/et_city"/>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

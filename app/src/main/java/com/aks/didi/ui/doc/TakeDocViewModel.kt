@@ -23,6 +23,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.util.*
 
 
 interface TakeDocViewModel: FragmentViewModel, SharedViewModel, PermissionViewModel {
@@ -33,6 +34,7 @@ interface TakeDocViewModel: FragmentViewModel, SharedViewModel, PermissionViewMo
     val listAdapter: List<DocItems>
 
     fun onNext()
+    fun checkNext()
     fun onTakePhotoSuccess(file: File, item: DocItem)
     fun onTakePhoto(item: DocItem)
 }
@@ -58,6 +60,7 @@ class TakeDocViewModelImpl(
         DocItem(R.string.passport_photo, FormField.PASPORT),
         DocButton(),
     )
+    private val uuid = UUID.randomUUID()
 
     init {
         checkPermission(PermissionEvent(PermissionType.CAMERA))
@@ -87,15 +90,16 @@ class TakeDocViewModelImpl(
                 .apply {
                     requestWithCallback({
                         api.sendSecond(
-                            CacheData.sid.value!!, preferences.getFio()!!, preferences.getPhone()!!, preferences.getCity()!!,
-                            getFileId(FormField.STS_FRONT),
-                            getFileId(FormField.STS_BACK),
-                            getFileId(FormField.VU_FRONT),
-                            getFileId(FormField.VU_BACK),
-                            getFileId(FormField.PASPORT),
-                            getFileId(FormField.VU_SELF)
-                        )
+                                CacheData.sid.value!!, preferences.getFio()!!, preferences.getPhone()!!, preferences.getCity()!!,
+                                getFileId(FormField.STS_FRONT),
+                                getFileId(FormField.STS_BACK),
+                                getFileId(FormField.VU_FRONT),
+                                getFileId(FormField.VU_BACK),
+                                getFileId(FormField.PASPORT),
+                                getFileId(FormField.VU_SELF),
+                                uuid)
                     }, {
+                        preferences.setDataSuccessful(2)
                         replaceFragment(FragmentEvent(FragmentType.INFORMATION))
                     }, { showPopUp(it) })
                 }
@@ -103,11 +107,11 @@ class TakeDocViewModelImpl(
 
     private fun List<FormField>.getFileId(formField: FormField) = this.find { it == formField }!!.fileId!!
 
-    private fun checkNext() =
-        isNextEnabled.postValue(listAdapter
+    override fun checkNext() =
+        isNextEnabled.postValue(!listAdapter
             .filter { it.type == DocType.ITEM }
             .map { it as DocItem }
-            .any { it.isSuccessLoad }
+            .any { !it.isSuccessLoad }
         )
 
     override fun onTakePhotoSuccess(file: File, item: DocItem) {
@@ -115,7 +119,7 @@ class TakeDocViewModelImpl(
         val part = MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart(
             "files", file.name, requestFile
         ).build()
-        requestWithCallback({ api.loadImage(CacheData.sid.value!!, part, item.formfield.filed) }, { loadImage ->
+        requestWithCallback({ api.loadImage(CacheData.sid.value!!, part, item.formfield.filed, uuid) }, { loadImage ->
             if (loadImage.result.uploaded.first().id != null) {
                 item.formfield.fileId = loadImage.result.uploaded.first().id
                 item.filePath.postValue(loadImage.result.uploaded.first().thumb)

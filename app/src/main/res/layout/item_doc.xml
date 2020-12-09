@@ -14,58 +14,75 @@
             type="com.aks.didi.ui.doc.TakeDocViewModel" />
     </data>
 
-    <RelativeLayout
+    <FrameLayout
         style="@style/LinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/margin_10"
-        android:paddingBottom="@dimen/margin_10"
-        android:paddingStart="@dimen/margin_16"
-        android:paddingEnd="@dimen/margin_16"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:onClick="@{()->viewModel.onTakePhoto(item)}">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/width_separator"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:background="@color/separator"
+            android:alpha="0.3"
+            android:layout_gravity="bottom"/>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_10"
-            android:orientation="vertical"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/iv">
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_10"
+            android:paddingStart="@dimen/margin_16"
+            android:paddingEnd="@dimen/margin_16"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="@{()->viewModel.onTakePhoto(item)}">
 
-            <TextView
-                style="@style/TextView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_header_16"
-                android:fontFamily="@font/open_sans_400"
-                bind:textBin="@{item.title}"
-                tools:text="@string/facial_sts"/>
+                android:layout_marginEnd="@dimen/margin_10"
+                android:orientation="vertical"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/iv">
 
-            <TextView
-                style="@style/TextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_header_16"
-                android:fontFamily="@font/open_sans_600"
-                bind:textColorBin="@{item.textColor}"
-                bind:textBin="@{item.text}"
-                tools:text="@string/load_sts"/>
+                <TextView
+                    style="@style/TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_header_16"
+                    android:fontFamily="@font/open_sans_400"
+                    bind:textBin="@{item.title}"
+                    tools:text="@string/facial_sts"/>
 
-        </LinearLayout>
+                <TextView
+                    style="@style/TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_header_16"
+                    android:fontFamily="@font/open_sans_600"
+                    bind:textColorBin="@{item.textColor}"
+                    bind:textBin="@{item.text}"
+                    tools:text="@string/load_sts"/>
 
-        <ImageView
-            android:id="@+id/iv"
-            android:layout_width="@dimen/size_40"
-            android:layout_height="@dimen/size_40"
-            bind:loadImage="@{item.filePath}"
-            bind:isLoadImage="@{item}"
-            android:scaleType="centerCrop"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"/>
+            </LinearLayout>
 
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/iv"
+                android:layout_width="@dimen/size_40"
+                android:layout_height="@dimen/size_40"
+                bind:loadImage="@{item.filePath}"
+                bind:isLoadImage="@{item}"
+                bind:viewModelLoadImage="@{viewModel}"
+                android:scaleType="centerCrop"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"/>
+
+        </RelativeLayout>
+
+
+    </FrameLayout>
 
 </layout>

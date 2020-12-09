@@ -87,7 +87,7 @@ class TakePhotoViewModelImpl(
     override fun onNext() {
         if (fio.value != null && phone.value != null && city.value != null)
         requestWithCallback({api.sendFirst(CacheData.sid.value!!, fio.value!!, "7"+phone.value!!, city.value!!)},{
-            preferences.firstDataSuccessful(true)
+            preferences.setDataSuccessful(1)
             preferences.setFio(fio.value!!)
             preferences.setPhone("7"+phone.value!!)
             preferences.setCity(city.value!!)

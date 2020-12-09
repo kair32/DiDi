@@ -39,6 +39,10 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="TextViewHeader">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="PopUpTheme">
         <item name="android:background">@drawable/pop_up_background</item>
         <item name="android:elevation">4dp</item>
