@@ -51,6 +51,7 @@ class TakePhotoViewModelImpl(
         )
     }
 
+    override fun onUpdate() { }
     override fun onPhoneEntry(length: Int){
         isPhone = (length==16)
         onCheckEntry()

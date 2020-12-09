@@ -8,6 +8,7 @@ import com.aks.didi.network.Status
 import com.aks.didi.ui.base.viewmodel.ViewModelBase
 import com.aks.didi.utils.FragmentViewModel
 import com.aks.didi.utils.PreferencesBasket
+import com.aks.didi.utils.SharedViewModel
 import com.aks.didi.utils.fragment.FragmentEvent
 import com.aks.didi.utils.fragment.FragmentType
 import kotlinx.coroutines.Dispatchers
@@ -20,14 +21,15 @@ interface PopUpViewModel {
     fun showPopUp(text: String?)
 }
 
-interface MainViewModel: FragmentViewModel, PopUpViewModel{
-    val isLoading: MutableLiveData<Status>
+interface MainViewModel: FragmentViewModel, PopUpViewModel, SharedViewModel{
+    val isLoadingValue: MutableLiveData<Status>
     fun setToken()
 }
 
 class MainViewModelImpl(
     private val preferences: PreferencesBasket
 ): ViewModelBase(), MainViewModel{
+    override val isLoadingValue = MutableLiveData<Status>()
     override val isPopUpVisible = MutableLiveData<Boolean>()
     override val popUpText = MutableLiveData<String>("")
 
@@ -43,25 +45,31 @@ class MainViewModelImpl(
     }
 
     init {
+        request()
+    }
+
+    override fun onUpdate() = request()
+
+    private fun request(){
         if (preferences.getCookie() == null)
             setToken()
         else{
             CacheData.sid.value = preferences.getCookie()!!
             requestWithCallback({api.checkToken(CacheData.sid.value!!)},
-                {
-                    replaceFragment(FragmentEvent(
-                        when(preferences.getDataSuccessful()){
-                            0       -> FragmentType.TAKE_PHONE
-                            1       -> FragmentType.TAKE_DOC
-                            2       -> FragmentType.INFORMATION
-                            else    -> FragmentType.TAKE_PHONE
-                }))
-                },
-                {
-                    preferences.setCookie(null)
-                    preferences.setDataSuccessful(0)
-                    setToken()
-                }
+                    {
+                        replaceFragment(FragmentEvent(
+                                when(preferences.getDataSuccessful()){
+                                    0       -> FragmentType.TAKE_PHONE
+                                    1       -> FragmentType.TAKE_DOC
+                                    2       -> FragmentType.INFORMATION
+                                    else    -> FragmentType.TAKE_PHONE
+                                }))
+                    },
+                    {
+                        preferences.setCookie(null)
+                        preferences.setDataSuccessful(0)
+                        setToken()
+                    }
             )
         }
     }

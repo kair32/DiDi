@@ -68,6 +68,7 @@ class TakeDocViewModelImpl(
         check()
     }
 
+    override fun onUpdate() {}
     private fun check() = if (preferences.getFio() == null || preferences.getPhone() == null || preferences.getCity() == null) {
             CacheData.sid.value = null
             false

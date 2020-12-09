@@ -9,6 +9,9 @@
         <variable
             name="viewModel"
             type="com.aks.didi.ui.base.activity.main.MainViewModel" />
+        <variable
+            name="sharedViewModel"
+            type="com.aks.didi.utils.SharedViewModel" />
     </data>
 
     <FrameLayout
@@ -34,6 +37,10 @@
 
         <include
             layout="@layout/fragment_loading"
+            bind:viewModel="@{viewModel}"/>
+
+        <include
+            layout="@layout/error_load"
             bind:viewModel="@{viewModel}"/>
 
     </FrameLayout>

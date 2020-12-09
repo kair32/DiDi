@@ -46,7 +46,7 @@ abstract class ViewModelBase: ViewModel(), FragmentViewModel, ActivityStartViewM
     protected open fun showPopUp(text: String?) { if (!text.isNullOrBlank()) popUpLiveData.postValue(text)}
     protected open fun showPopUp(res: Int) = popUpLiveDataInt.postValue(res)
 
-
+    override fun onUpdate() {}
     override fun onBackPressed() = fragmentLiveData.postValue(FragmentEvent(FragmentType.BACK, isBack = true))
     //region запросы
 

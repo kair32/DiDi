@@ -14,6 +14,7 @@ interface SharedViewModel {
     val popUpLiveData: LiveData<String>
     val popUpLiveDataInt: LiveData<Int>
     val isLoading: LiveData<Status>
+    fun onUpdate()
 }
 
 interface FragmentViewModel {

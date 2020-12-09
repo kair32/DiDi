@@ -36,13 +36,14 @@ class MainActivity: AppCompatActivity() {
 
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = viewModel
+        binding.sharedViewModel = sharedViewModel
 
         sharedViewModel.popUpLiveData.observe(this){ if (it.isNotBlank()) viewModel.showPopUp(it) }
         sharedViewModel.popUpLiveDataInt.observe(this){
             if (it!=null)
                 viewModel.showPopUp(this.resources.getString(it))
         }
-        sharedViewModel.isLoading.observe(this){ viewModel.isLoading.postValue(it)}
+        sharedViewModel.isLoading.observe(this){ viewModel.isLoadingValue.postValue(it)}
 
         CacheData.sid.observe(this){
             if (it.isNullOrBlank()) {
