@@ -43,7 +43,7 @@ class TakeDocViewModelImpl(
     override var imagePath = ""
     override val listener = this
     override val isPermissionCameraGranted = MutableLiveData(false)
-    override val isNextEnabled = MutableLiveData(true)
+    override val isNextEnabled = MutableLiveData(false)
     override val takePhoto = MutableLiveData<DocItem>()
     override val listAdapter = listOf(
         DocTitle(),
@@ -107,7 +107,7 @@ class TakeDocViewModelImpl(
         isNextEnabled.postValue(listAdapter
             .filter { it.type == DocType.ITEM }
             .map { it as DocItem }
-            .any { it.formfield.fileId != null }
+            .any { it.isSuccessLoad }
         )
 
     override fun onTakePhotoSuccess(file: File, item: DocItem) {
@@ -121,7 +121,9 @@ class TakeDocViewModelImpl(
                 item.filePath.postValue(loadImage.result.uploaded.first().thumb)
                 checkNext()
             }
-        }, { showPopUp(it) })
+        }, {
+            checkNext()
+            showPopUp(it) })
     }
 
     override fun onPermissionGranted(response: PermissionGrantedResponse?) { if (response?.permissionName == PermissionType.CAMERA.permission) isPermissionCameraGranted.postValue(

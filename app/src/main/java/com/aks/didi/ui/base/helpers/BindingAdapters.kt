@@ -111,9 +111,12 @@ fun setLoadImage(iv: ImageView, path: String?, item: DocItem){
     iv.load(path){
         scale(Scale.FILL)
         this.target({},{
+            item.isSuccessLoad = false
+            iv.load(R.drawable.ic_error_load)
             item.textColor.postValue(R.color.red)
             item.text.postValue(R.string.fail_load)
         },{
+            item.isSuccessLoad = true
             item.textColor.postValue(R.color.green)
             item.text.postValue(R.string.successful_load)
         })
