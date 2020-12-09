@@ -11,7 +11,7 @@ interface DocItems{
 }
 
 class DocItem(val title: Int, val formfield: FormField): DocItems{
-    val filePath = MutableLiveData<File>()
+    val filePath = MutableLiveData<String>()
     override val type: DocType = DocType.ITEM
 }
 class DocText(val text: Int, override val type: DocType = DocType.TEXT): DocItems

@@ -10,7 +10,6 @@ import com.aks.didi.utils.SharedViewModel
 import com.aks.didi.utils.fragment.FragmentEvent
 import com.aks.didi.utils.fragment.FragmentType
 
-
 interface TakePhotoViewModel: FragmentViewModel, SharedViewModel {
     val fio: MutableLiveData<String>
     val phone: MutableLiveData<String>
@@ -30,12 +29,12 @@ interface TakePhotoViewModel: FragmentViewModel, SharedViewModel {
 class TakePhotoViewModelImpl(
     private val preferences: PreferencesBasket
 ): ViewModelBase(), TakePhotoViewModel{
-    override val phone = MutableLiveData<String>("")
-    override val fio = MutableLiveData<String>("")
-    override val isFocusCity = MutableLiveData<Boolean>(false)
-    override val isNextEnabled = MutableLiveData<Boolean>(true)
-    override val city = MutableLiveData<String>("")
-    override val cities = MutableLiveData<List<String>>(listOf("Санкт-Петербург"))
+    override val phone = MutableLiveData("")
+    override val fio = MutableLiveData("")
+    override val isFocusCity = MutableLiveData(false)
+    override val isNextEnabled = MutableLiveData(false)
+    override val city = MutableLiveData("")
+    override val cities = MutableLiveData(listOf("Москва", "Санкт-Петербург"))
 
     private val defaultCities: MutableList<String> = mutableListOf()
     private var isPhone: Boolean = false
@@ -86,11 +85,10 @@ class TakePhotoViewModelImpl(
     }
 
     override fun onNext() {
-        //replaceFragment(FragmentEvent(FragmentType.TAKE_DOC))
         if (fio.value != null && phone.value != null && city.value != null)
         requestWithCallback({api.sendFirst(CacheData.sid.value!!, fio.value!!, "7"+phone.value!!, city.value!!)},{
-            replaceFragment(FragmentEvent(FragmentType.TAKE_DOC))
             preferences.firstDataSuccessful(true)
+            replaceFragment(FragmentEvent(FragmentType.TAKE_DOC))
         },{ if (!it.isNullOrBlank()) showPopUp(it) })
     }
 }

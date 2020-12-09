@@ -91,7 +91,7 @@ fun setTopTopParentConstraint(view: View, id: Int) {
 }
 
 @BindingAdapter("loadImage")
-fun setLoadImage(iv: ImageView, path: File?){
+fun setLoadImage(iv: ImageView, path: String?){
     iv.load(path){
         scale(Scale.FILL)
     }

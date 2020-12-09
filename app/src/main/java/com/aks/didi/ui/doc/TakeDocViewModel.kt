@@ -106,9 +106,9 @@ class TakeDocViewModelImpl: ViewModelBase(), TakeDocViewModel, PermissionListene
             "files", file.name, requestFile
         ).build()
         requestWithCallback({ api.loadImage(CacheData.sid.value!!, part, item.formfield.filed) }, { loadImage ->
-            if (!loadImage.result.uploaded.isNullOrEmpty()) {
-                item.formfield.fileId = ""
-                item.filePath.postValue(file)
+            if (loadImage.result.uploaded.first().id != null) {
+                item.formfield.fileId = loadImage.result.uploaded.first().id
+                item.filePath.postValue(loadImage.result.uploaded.first().thumb)
                 checkNext()
             }
         }, { showPopUp(it) })
@@ -118,42 +118,5 @@ class TakeDocViewModelImpl: ViewModelBase(), TakeDocViewModel, PermissionListene
         true
     ) }
     override fun onPermissionDenied(response: PermissionDeniedResponse?) = showPopUp(R.string.access_to_camera)
-    override fun onPermissionRationaleShouldBeShown(
-        permission: PermissionRequest?,
-        token: PermissionToken?
-    ) = token?.continuePermissionRequest() ?: Unit
-
-    //region maybe
-    private fun createPart(key: String, value: String)
-            = MultipartBody.Builder().addPart(
-        createHeaders(disposition(key)),
-        value.toRequestBody()
-    )
-
-    private fun disposition(key: String) = buildString {
-        append("form-data; name=")
-        appendQuotedString(key)
-    }
-
-    private fun createHeaders(disposition: String) = Headers.Builder()
-            .addUnsafeNonAscii("Content-Disposition", disposition)
-            .addUnsafeNonAscii(
-                "content-type",
-                "multipart/form-data;boundary=-------------573cf973d5228"
-            )
-            .build()
-
-    private fun StringBuilder.appendQuotedString(key: String) {
-        append('"')
-        for (i in 0 until key.length) {
-            when (val ch = key[i]) {
-                '\n' -> append("%0A")
-                '\r' -> append("%0D")
-                '"' -> append("%22")
-                else -> append(ch)
-            }
-        }
-        append('"')
-    }
-    //endregion
+    override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest?, token: PermissionToken?) = token?.continuePermissionRequest() ?: Unit
 }

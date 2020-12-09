@@ -64,18 +64,19 @@ abstract class ViewModelBase: ViewModel(), FragmentViewModel, ActivityStartViewM
                 launch(Dispatchers.IO) {
                     if (res.body() != null) {
                         if(!(res.body() as RequestWrapper).success){
+                            isLoading.postValue(Status.ERROR)
                             val maps = ((res.body() as RequestWrapper).errors as? LinkedTreeMap<String,String>)
                             maps?.values?.joinToString(", ").let { errorCallback?.invoke(it)}
-                            isLoading.postValue(Status.ERROR)
+                            checkOldToken(res.code())
                         } else {
+                            isLoading.postValue(Status.SUCCESS)
                             checkOldToken(res.code())
                             response(res.body()!!)
-                            isLoading.postValue(Status.SUCCESS)
                         }
                     } else if (res.errorBody() != null) {
+                        isLoading.postValue(Status.ERROR)
                         checkOldToken(res.code())
                         errorCallback?.invoke(getError(res.errorBody()))
-                        isLoading.postValue(Status.ERROR)
                     }
                 }
             } catch (e: Exception) {

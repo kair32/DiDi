@@ -15,7 +15,14 @@ data class LoadImage(
 ):RequestWrapper
 
 data class Result(
-        val uploaded: List<String>
+        val uploaded: List<Uploaded>
+)
+data class Uploaded(
+        val name: String?,
+        val error: Int?,
+        val size: Long?,
+        val id: String?,
+        val thumb: String?,
 )
 
 data class ResponseWrapper(
@@ -38,13 +45,3 @@ data class CityGetList(
         override val errors: Any,
         val result: List<String>?
 ): RequestWrapper
-
-
-data class FromSend(
-        val fullname: String,
-        val phone: String,
-        val city: String,
-        val privacy: Boolean = true,
-        val form: String = "bid.hook.didi",
-        val uid: UUID = UUID.randomUUID()
-)

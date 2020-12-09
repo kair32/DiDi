@@ -52,4 +52,8 @@
         <item name="android:background">@color/white</item>
         <item name="android:elevation">4dp</item>
     </style>
+
+    <style name="ImageView">
+        <item name="android:tint">@color/black</item>
+    </style>
 </resources>

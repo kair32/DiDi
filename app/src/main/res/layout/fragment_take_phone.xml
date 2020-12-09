@@ -95,6 +95,7 @@
             bind:layout_constraintEnd_toStartOf="@+id/iv_close"/>
 
         <ImageView
+            style="@style/ImageView"
             android:id="@+id/iv_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

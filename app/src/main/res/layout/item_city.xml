@@ -31,7 +31,6 @@
             android:gravity="center_vertical|start"
             android:fontFamily="@font/open_sans_600"
             android:textSize="@dimen/text_header_16"
-            android:textColor="@color/black"
             android:text="@{item.city}"
             tools:text="Москва"/>
 
