@@ -88,6 +88,9 @@ class TakePhotoViewModelImpl(
         if (fio.value != null && phone.value != null && city.value != null)
         requestWithCallback({api.sendFirst(CacheData.sid.value!!, fio.value!!, "7"+phone.value!!, city.value!!)},{
             preferences.firstDataSuccessful(true)
+            preferences.setFio(fio.value!!)
+            preferences.setPhone("7"+phone.value!!)
+            preferences.setCity(city.value!!)
             replaceFragment(FragmentEvent(FragmentType.TAKE_DOC))
         },{ if (!it.isNullOrBlank()) showPopUp(it) })
     }

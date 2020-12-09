@@ -7,6 +7,7 @@ import com.aks.didi.model.CacheData
 import com.aks.didi.ui.base.viewmodel.ViewModelBase
 import com.aks.didi.utils.FragmentViewModel
 import com.aks.didi.utils.PermissionViewModel
+import com.aks.didi.utils.PreferencesBasket
 import com.aks.didi.utils.SharedViewModel
 import com.aks.didi.utils.fragment.FragmentEvent
 import com.aks.didi.utils.fragment.FragmentType
@@ -36,7 +37,9 @@ interface TakeDocViewModel: FragmentViewModel, SharedViewModel, PermissionViewMo
     fun onTakePhoto(item: DocItem)
 }
 
-class TakeDocViewModelImpl: ViewModelBase(), TakeDocViewModel, PermissionListener {
+class TakeDocViewModelImpl(
+        private val preferences: PreferencesBasket
+): ViewModelBase(), TakeDocViewModel, PermissionListener {
     override var imagePath = ""
     override val listener = this
     override val isPermissionCameraGranted = MutableLiveData(false)
@@ -59,7 +62,14 @@ class TakeDocViewModelImpl: ViewModelBase(), TakeDocViewModel, PermissionListene
     init {
         checkPermission(PermissionEvent(PermissionType.CAMERA))
         checkNext()
+        check()
     }
+
+    private fun check() = if (preferences.getFio() == null || preferences.getPhone() == null || preferences.getCity() == null) {
+            CacheData.sid.value = null
+            false
+        }
+        else true
 
     override fun onTakePhoto(item: DocItem) =
         if (isPermissionCameraGranted.value == true) {
@@ -69,7 +79,7 @@ class TakeDocViewModelImpl: ViewModelBase(), TakeDocViewModel, PermissionListene
         else checkPermission(PermissionEvent(PermissionType.CAMERA))
 
     override fun onNext() {
-        replaceFragment(FragmentEvent(FragmentType.INFORMATION))
+        if (check())
         listAdapter
                 .filter { it.type == DocType.ITEM }
                 .map    { it as DocItem }
@@ -77,7 +87,7 @@ class TakeDocViewModelImpl: ViewModelBase(), TakeDocViewModel, PermissionListene
                 .apply {
                     requestWithCallback({
                         api.sendSecond(
-                            CacheData.sid.value!!, "", "", "",
+                            CacheData.sid.value!!, preferences.getFio()!!, preferences.getPhone()!!, preferences.getCity()!!,
                             getFileId(FormField.STS_FRONT),
                             getFileId(FormField.STS_BACK),
                             getFileId(FormField.VU_FRONT),
