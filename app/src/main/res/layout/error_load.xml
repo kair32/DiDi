@@ -18,6 +18,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
+        android:elevation="10dp"
         bind:isVisible="@{viewModel.isLoading() == Status.ERROR}">
 
         <TextView

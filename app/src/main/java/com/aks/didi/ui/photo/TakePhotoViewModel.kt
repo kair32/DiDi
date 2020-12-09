@@ -41,7 +41,9 @@ class TakePhotoViewModelImpl(
     private var isCity: Boolean = false
     private var isFio: Boolean = false
 
-    init {
+    init { getCities() }
+
+    private fun getCities(){
         requestWithCallback({ api.getCityList(CacheData.sid.value!!) },
                 {
                     cities.postValue(it.result ?: listOf())
@@ -51,7 +53,8 @@ class TakePhotoViewModelImpl(
         )
     }
 
-    override fun onUpdate() { }
+    override fun onUpdate() = getCities()
+
     override fun onPhoneEntry(length: Int){
         isPhone = (length==16)
         onCheckEntry()
