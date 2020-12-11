@@ -216,13 +216,14 @@
                 android:layout_marginTop="@dimen/margin_20"
                 android:layout_marginBottom="@dimen/margin_20"
                 android:padding="@dimen/margin_10"
-                android:fontFamily="@font/open_sans_600"
+                android:fontFamily="@font/open_sans_700"
                 android:textSize="@dimen/text_header_16"
                 android:layout_marginStart="@dimen/margin_16"
                 android:layout_marginEnd="@dimen/margin_16"
                 android:text="@string/register_another_driver"
                 android:textColor="@color/white"
-                bind:layout_constraintTop_toBottomOf="@+id/et_city"/>
+                bind:layout_constraintTop_toBottomOf="@+id/et_city"
+                android:backgroundTint="@color/colorOrange"/>
 
         </LinearLayout>
 

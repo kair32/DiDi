@@ -109,10 +109,10 @@ class TakeDocViewModelImpl(
     private fun List<FormField>.getFileId(formField: FormField) = this.find { it == formField }?.fileId
 
     override fun checkNext() =
-        isNextEnabled.postValue(listAdapter
+        isNextEnabled.postValue(!listAdapter
             .filter { it.type == DocType.ITEM }
             .map { it as DocItem }
-            .any { it.isSuccessLoad }
+            .any { !it.isSuccessLoad }
         )
 
     override fun onTakePhotoSuccess(file: File, item: DocItem) {
